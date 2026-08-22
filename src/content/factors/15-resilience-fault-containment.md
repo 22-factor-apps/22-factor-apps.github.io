@@ -1,0 +1,88 @@
+---
+number: 15
+numeral: "XV"
+slug: resilience-fault-containment
+title: "Resilience & Fault Containment"
+tagline: "Assume failure, bound amplification, and preserve the critical path"
+original: false
+category: "Reliability"
+reading: "7 min"
+---
+
+Distributed systems fail partially: one dependency slows, one zone disappears, one
+queue partition sticks, one certificate expires, or one customer sends pathological
+load while everything else appears healthy. Design those failures as ordinary states
+with bounded consequences, not as surprises the runtime is expected to heal by magic.
+
+## The principle
+
+Every remote call and shared resource needs a **failure budget**: a timeout, concurrency
+limit, retry policy, queue bound, and fallback or explicit failure behavior. Isolate
+unrelated workloads so one tenant, feature, dependency, or background job cannot
+consume all capacity needed by the critical path.
+
+Resilience is not maximizing uptime at any cost. It is preserving the most important
+user outcomes, maintaining correctness, and recovering predictably under the failures
+the system is designed to tolerate.
+
+## Make failure semantics explicit
+
+- Set end-to-end deadlines and propagate a shrinking time budget downstream. A
+  timeout at every layer that exceeds the caller’s deadline only manufactures work
+  nobody is waiting for.
+- Retry only errors likely to be transient, only when the operation is idempotent or
+  protected by an idempotency key, and with a strict attempt budget, exponential
+  backoff, and jitter. Retry at one appropriate layer.
+- Bound concurrency, connection pools, queues, payloads, and memory. Reject or shed
+  work before saturation prevents recovery.
+- Use bulkheads to isolate tenants, priorities, dependency pools, and background work.
+  Circuit breakers can reduce repeated harm but require carefully tested recovery and
+  should not become synchronized flapping machines.
+- Define graceful degradation: stale read, reduced fidelity, queued work, read-only
+  mode, or explicit unavailability. Never degrade authentication, tenant isolation,
+  financial correctness, or another non-negotiable safety property.
+
+Model the dependency graph, including control planes, identity, DNS, telemetry, and
+deployment systems. Redundancy does not help when replicas share the same hidden
+failure domain or a single control plane can misconfigure all of them at once.
+
+## Prove recovery, not just redundancy
+
+Backups matter only when restore meets a declared recovery point and recovery time.
+Multi-region architectures matter only when failover preserves data semantics and
+operators can invoke or stop it safely. Regularly exercise dependency latency,
+throttling, malformed responses, network partitions, process termination, capacity
+loss, and control-plane unavailability in environments representative enough to
+expose real behavior.
+
+Tie experiments to [Factor XIII](/factors/observability-slos): state the expected SLI
+impact, safety boundary, abort condition, and evidence of recovery.
+
+## Common failure modes
+
+Infinite retries, retry storms at several layers, queues used as unbounded memory,
+health checks that mark an overloaded service healthy, global caches or thread pools,
+active-active claims without conflict semantics, and fallbacks that return plausible
+but wrong data all amplify failure.
+
+“The orchestrator restarts it” addresses process death, not duplicated side effects,
+corrupted state, dependency saturation, or region-wide loss.
+
+## Litmus test
+
+> Inject latency and errors into one important dependency under peak representative
+> load. Does the application respect end-to-end deadlines, keep retries within budget,
+> shed low-priority work, preserve correctness and tenant isolation, remain observable,
+> and recover without a manual restart storm?
+
+If one failing dependency consumes every worker or all recovery capacity, the fault
+boundary is still the entire system.
+
+## Research lineage
+
+Google SRE frames reliability through explicit risk and objectives. Amazon’s Builders’
+Library documents the practical necessity—and danger—of timeouts, retries, backoff,
+jitter, and idempotency in remote calls. CNCF architecture makes availability and
+graceful failure defining cloud-native properties.
+
+*Sources: [Google SRE, Embracing Risk](https://sre.google/sre-book/embracing-risk/), [Amazon on idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/), and [CNCF Cloud Native Architecture](https://architecture.cncf.io/).*

@@ -7,61 +7,87 @@ export async function getStaticPaths() {
     (a: any, b: any) => a.frontmatter.number - b.frontmatter.number
   );
 
-  return entries.map((entry: any, i: number) => ({
+  return entries.map((entry: any, index: number) => ({
     params: { slug: entry.frontmatter.slug },
     props: {
       entry,
-      prev: i > 0 ? entries[i - 1] : null,
-      next: i < entries.length - 1 ? entries[i + 1] : null,
+      prev: index > 0 ? entries[index - 1] : null,
+      next: index < entries.length - 1 ? entries[index + 1] : null,
     },
   }));
 }
 
 const { entry, prev, next } = Astro.props as any;
 const { Content } = entry;
-const f = entry.frontmatter;
+const factor = entry.frontmatter;
+const progress = `${(factor.number / 22) * 100}%`;
 ---
 
 <Base
-  title={`Factor ${f.numeral}. ${f.title} — The Twenty-Two-Factor App`}
-  description={f.tagline}
+  title={`Factor ${factor.numeral}: ${factor.title} — The Twenty-Two-Factor App`}
+  description={factor.tagline}
 >
-  <header class="article-head">
-    <p class="crumbs">
-      <a href="/">22-factor-apps</a> / <a href="/#factors">factors</a> / {f.slug}
-    </p>
-    <div class="numeral-line">
-      <span class="roman">Factor {f.numeral}</span>
-      {f.original ? (
-        <span class="pill">modernized classic</span>
-      ) : (
-        <span class="pill new">new in 22-factor</span>
-      )}
+  <div class="article-progress" aria-hidden="true"><span style={`width: ${progress}`}></span></div>
+
+  <header class:list={["article-hero", !factor.original && "article-hero-new"]}>
+    <div class="article-hero-inner">
+      <p class="article-breadcrumbs">
+        <a href="/">Home</a><span>/</span><a href="/#factors">Factors</a><span>/</span>{String(factor.number).padStart(2, '0')}
+      </p>
+      <div class="article-title-row">
+        <div class="article-index" aria-hidden="true">{factor.numeral}</div>
+        <div class="article-title-copy">
+          <div class="article-meta">
+            <span>{factor.original ? 'Durable original' : 'Missing principle'}</span>
+            <span>{factor.category}</span>
+            <span>{String(factor.number).padStart(2, '0')} / 22</span>
+          </div>
+          <h1>{factor.title}</h1>
+          <p>{factor.tagline}</p>
+        </div>
+      </div>
     </div>
-    <h1>{f.title}</h1>
-    <p class="tagline">{f.tagline}</p>
   </header>
 
-  <article class="article-body">
-    <Content />
-  </article>
+  <div class="article-shell">
+    <aside class="article-rail" aria-label="Factor metadata">
+      <div>
+        <span class="rail-label">Class</span>
+        <strong>{factor.original ? 'Foundation' : 'Extension'}</strong>
+      </div>
+      <div>
+        <span class="rail-label">Domain</span>
+        <strong>{factor.category}</strong>
+      </div>
+      <div>
+        <span class="rail-label">Reading time</span>
+        <strong>{factor.reading ?? '4 min'}</strong>
+      </div>
+      <a href="/#factors">All 22 factors <span aria-hidden="true">↗</span></a>
+    </aside>
+
+    <article class="article-body">
+      <Content />
+    </article>
+  </div>
 
   <nav class="pager" aria-label="Factor navigation">
     {prev ? (
       <a href={`/factors/${prev.frontmatter.slug}`}>
-        <span class="dir">← Prev · {prev.frontmatter.numeral}</span>
-        <span class="t">{prev.frontmatter.title}</span>
+        <span class="pager-direction">← Previous · {prev.frontmatter.numeral}</span>
+        <span>{prev.frontmatter.title}</span>
       </a>
-    ) : (
-      <span class="spacer"></span>
-    )}
+    ) : <span class="pager-empty"></span>}
     {next ? (
-      <a class="next" href={`/factors/${next.frontmatter.slug}`}>
-        <span class="dir">Next · {next.frontmatter.numeral} →</span>
-        <span class="t">{next.frontmatter.title}</span>
+      <a class="pager-next" href={`/factors/${next.frontmatter.slug}`}>
+        <span class="pager-direction">Next · {next.frontmatter.numeral} →</span>
+        <span>{next.frontmatter.title}</span>
       </a>
     ) : (
-      <span class="spacer"></span>
+      <a class="pager-next" href="/research">
+        <span class="pager-direction">Continue →</span>
+        <span>Research trail</span>
+      </a>
     )}
   </nav>
 </Base>

@@ -3,33 +3,67 @@ number: 2
 numeral: "II"
 slug: dependencies
 title: "Dependencies"
-tagline: "Explicitly declare and isolate dependencies"
+tagline: "Declare, resolve, verify, and isolate every dependency"
 original: true
+category: "Build"
+reading: "5 min"
 ---
 
-A twenty-two-factor app never relies on the implicit existence of system-wide packages.
-It declares every dependency, completely and exactly, in a manifest checked into the
-codebase, and it uses an isolation mechanism during execution so that no dependency can
-leak in from the surrounding system.
+An application should never succeed because a convenient package, compiler, shared
+library, certificate bundle, or command happens to be installed on one machine.
+Everything required to build and run it is declared; everything resolved from those
+declarations is pinned and verifiable.
 
-The full toolkit matters: a **declaration manifest** (`package.json`, `Cargo.toml`,
-`pyproject.toml`, `.zpkg.toml`), a **lockfile** that pins the exact resolved versions
-(`package-lock.json`, `Cargo.lock`, `.zpkg.lock`), and an **isolated install** —
-per-project module folders, virtualenvs, or a content-addressed store with per-project
-symlinks in the style of pnpm and [zed-pkg](https://zpkg.net).
+## The principle
 
-Two modern refinements:
+Use the ecosystem’s dependency declaration and isolation mechanisms. A manifest says
+what the application permits. A lockfile or equivalent resolution says exactly what
+was selected, including transitive dependencies. An isolated build and runtime ensure
+that undeclared software cannot silently satisfy an import or alter behavior.
 
-**Prefer lean, provenance-traceable artifacts.** Dependency managers that fetch pruned,
-content-addressed artifacts pinned to a tag *and* a commit give you a supply-chain
-audit trail for free. When a dependency lives in a forge rather than a language
-registry, install it as a package with pinned provenance — never as a vendored copy or
-a floating `git clone`.
+The modern dependency graph is wider than application libraries. It includes the
+language toolchain, package manager, code generators, operating-system packages,
+container base image, CI actions, browser assets, policy bundles, and plugins loaded
+at runtime. A floating `latest` image is as undeclared as a library copied into
+`/usr/local/lib` by hand.
 
-**Simplify shell-outs — declare the tools, don't assume them.** If the app shells out to
-`curl`, `ffmpeg`, or `ImageMagick`, that's a dependency too. Under this methodology it
-belongs in the container image definition (see [Factor XV](/factors/oci-not-docker)),
-which is itself in the codebase, so the tool's presence and version are declared rather
-than hoped for.
+## What good looks like
 
-*Adapted from Factor II of the original [twelve-factor methodology](https://12factor.net/dependencies).*
+- Commit manifests and lockfiles. Update them through reviewed, automated changes
+  that show what moved and why.
+- Pin build images and external automation by immutable digest where the ecosystem
+  supports it. Record toolchain versions in the build definition.
+- Build in a clean environment with network access restricted to the explicit
+  resolution step. A second build from the same inputs should not discover new code.
+- Maintain an inventory or software bill of materials for the released artifact, then
+  connect it to vulnerability and license policy. [Factor XIV](/factors/supply-chain-integrity)
+  adds provenance, signatures, and admission verification.
+- Remove dependencies that no longer earn their attack surface, update burden,
+  startup cost, or operational complexity.
+
+Isolation applies at runtime too. The application must not assume a shell utility,
+system package, or globally installed interpreter module unless that dependency is
+part of the declared runtime image. Prefer a minimal runtime that contains only what
+the process needs.
+
+## Common failure modes
+
+Typical violations include `npm install` without a lockfile in CI, broad version
+ranges resolved afresh during every deployment, unpinned Git URLs, mutable container
+tags, build scripts that download executables without checking a digest, and a local
+tooling dependency documented only as “install the usual stuff.”
+
+Vendoring is not automatically safer. Checked-in dependency source still needs an
+origin, version, update path, license record, and integrity story. A repository full
+of abandoned copies is a dependency graph with its labels removed.
+
+## Litmus test
+
+> Start from a minimal clean builder with only the declared bootstrap toolchain. Can
+> it resolve the locked graph, verify every fetched input, and build without reading
+> globally installed packages or mutable tags?
+
+Then remove network access and rebuild from the captured inputs. An unexpected fetch
+or a changed artifact reveals an undeclared dependency or non-hermetic build.
+
+*Modernized from [Factor II of the original twelve-factor methodology](https://12factor.net/dependencies).*

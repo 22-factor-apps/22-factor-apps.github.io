@@ -1,19 +1,20 @@
 {
   "name": "22-factor-apps-site",
-  "description": "Marketing/documentation site for the 22-Factor App methodology — 22-factor-apps.github.io",
-  "version": "0.1.0",
+  "description": "The Twenty-Two-Factor App — a field guide for modern software",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "license": "MIT",
   "engines": {
-    "node": ">=20"
+    "node": ">=22.12"
   },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check:content": "node scripts/check-content.mjs"
   },
   "dependencies": {
-    "astro": "^5.6.0"
+    "astro": "7.2.4"
   }
 }

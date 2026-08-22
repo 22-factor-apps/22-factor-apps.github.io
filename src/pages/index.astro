@@ -6,94 +6,193 @@ const factors = Object.values(modules)
   .map((m: any) => m.frontmatter)
   .sort((a: any, b: any) => a.number - b.number);
 
-const foundation = factors.filter((f: any) => f.original);
-const additions = factors.filter((f: any) => !f.original);
+const foundation = factors.filter((factor: any) => factor.original);
+const additions = factors.filter((factor: any) => !factor.original);
 ---
 
-<Base title="The Twenty-Two-Factor App">
+<Base title="The Twenty-Two-Factor App — A field guide for modern software">
   <section class="hero">
-    <div class="watermark" aria-hidden="true">22</div>
-    <p class="kicker">A methodology for modern software-as-a-service</p>
-    <h1>The <span class="n22">Twenty&#8209;Two</span>-<wbr />Factor App</h1>
-    <p class="lede">
-      Twelve factors got us to the cloud. These twenty-two are for what came after:
-      encrypted config living in the repo, OCI everything, microVMs, immutable fleets,
-      tag-cut releases — and the humans who review, approve, and merge it all.
+    <div class="hero-copy">
+      <p class="eyebrow"><span>Field guide 01</span> Software that survives contact with reality</p>
+      <h1>The cloud changed.<br /><em>The checklist should too.</em></h1>
+      <p class="hero-lede">
+        Ten durable ideas from the original twelve. Twelve missing principles for
+        security, reliability, delivery, data, cost, and sustainability. One
+        opinionated field guide for software people can actually operate.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/factors/codebase">Start with Factor I <span aria-hidden="true">→</span></a>
+        <a class="button button-secondary" href="#why-22">See what changed</a>
+      </div>
+    </div>
+
+    <div class="hero-plate" aria-label="Twelve original factors minus two retired factors plus twelve new factors equals twenty-two">
+      <div class="plate-topline"><span>Revision</span><strong>2026.1</strong></div>
+      <div class="plate-number" aria-hidden="true">22</div>
+      <div class="plate-equation">
+        <span><b>12</b> original</span>
+        <i>−</i>
+        <span><b>2</b> retired</span>
+        <i>+</i>
+        <span><b>12</b> missing</span>
+      </div>
+      <div class="plate-status"><i aria-hidden="true"></i> Working draft · open source</div>
+    </div>
+  </section>
+
+  <section class="manifesto" aria-label="Methodology summary">
+    <p>
+      This is not a vendor checklist. It is a set of architectural pressures:
+      make the right thing easy, make unsafe states hard to reach, and leave
+      enough evidence for the next person to understand what happened.
     </p>
-    <div class="actions">
-      <a class="btn primary" href="#factors">Read the factors</a>
-      <a class="btn" href="https://github.com/22-factor-apps" rel="noopener">Star on GitHub</a>
+    <span class="manifesto-mark" aria-hidden="true">↘</span>
+  </section>
+
+  <section class="why-section" id="why-22">
+    <div class="section-intro">
+      <p class="section-label">01 · The argument</p>
+      <h2>A respectful edit,<br />not a ceremonial sequel.</h2>
+    </div>
+    <div class="why-grid">
+      <article>
+        <span class="mini-index">Keep / 10</span>
+        <h3>Preserve what still compounds</h3>
+        <p>
+          Codebase discipline, explicit dependencies, external config, attached
+          services, immutable releases, stateless execution, horizontal scale,
+          disposability, parity, and one-off administration remain excellent
+          constraints. We kept them—and made every page more testable.
+        </p>
+      </article>
+      <article>
+        <span class="mini-index">Retire / 02</span>
+        <h3>Promote intent over mechanism</h3>
+        <p>
+          Port binding was a useful 2011 deployment contract, but not every modern
+          workload listens on a port. Logs-as-streams was a useful platform rule,
+          but logs are only one observability signal. Their intent now lives in
+          contract-first interfaces and observability with SLOs.
+        </p>
+        <a class="text-link" href="/retired">Read the retirement notes <span aria-hidden="true">→</span></a>
+      </article>
+      <article>
+        <span class="mini-index">Add / 12</span>
+        <h3>Cover the production blind spots</h3>
+        <p>
+          Kevin Hoffman identified API-first design, telemetry, and identity as
+          missing. SRE, zero trust, software-supply-chain, GitOps, privacy, FinOps,
+          and green-software practices expose nine more gaps. The new twelve turn
+          those lessons into compact operating principles.
+        </p>
+        <a class="text-link" href="/research">Follow the research trail <span aria-hidden="true">→</span></a>
+      </article>
     </div>
   </section>
 
-  <section class="intro" id="why">
-    <div class="cell">
-      <h2>Where it comes from</h2>
+  <section class="factors-section" id="factors">
+    <div class="section-intro factors-intro">
+      <div>
+        <p class="section-label">02 · The field guide</p>
+        <h2>Twenty-two pressures.<br />No maturity theater.</h2>
+      </div>
       <p>
-        In 2011, the <a href="https://12factor.net" rel="noopener">twelve-factor
-        methodology</a> distilled how the best SaaS apps were built. It aged
-        remarkably well — and the world still moved: containers became a standard,
-        infrastructure became disposable, secrets management grew up, and delivery
-        pipelines got humans and AI working side by side.
+        Each factor states a constraint, shows why it matters, names common failure
+        modes, and ends with a litmus test. Adopt them as a system; adapt their
+        implementation to your context.
       </p>
     </div>
-    <div class="cell">
-      <h2>What changed</h2>
-      <p>
-        The biggest reversal is config. The <code>.env</code>-file era left the most
-        security-critical part of every system unversioned and unauditable. We commit
-        config <em>encrypted</em> in the codebase, decrypt at deploy time, and keep
-        only one or two root secrets outside the repo, in an external service.
-      </p>
+
+    <div class="factor-group">
+      <div class="factor-group-heading">
+        <div>
+          <span class="group-number">01—10</span>
+          <h3>The durable ten</h3>
+        </div>
+        <p>Original principles that still earn their place.</p>
+      </div>
+      <div class="factor-grid">
+        {foundation.map((factor: any) => (
+          <a class="factor-card foundation-card" href={`/factors/${factor.slug}`}>
+            <div class="card-topline">
+              <span class="card-number">{factor.numeral}</span>
+              <span class="card-category">{factor.category}</span>
+            </div>
+            <h4>{factor.title}</h4>
+            <p>{factor.tagline}</p>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
     </div>
-    <div class="cell">
-      <h2>How to read it</h2>
-      <p>
-        Factors I–XII restate the originals with modern refinements — full credit to
-        their authors. Factors XIII–XXII are new. Each factor is a page you can read
-        in three minutes and argue about for a career. It's all MIT-licensed; PRs
-        welcome.
-      </p>
+
+    <div class="factor-group additions-group">
+      <div class="factor-group-heading">
+        <div>
+          <span class="group-number">11—22</span>
+          <h3>The missing twelve</h3>
+        </div>
+        <p>Modern obligations the original methodology did not name.</p>
+      </div>
+      <div class="factor-grid">
+        {additions.map((factor: any) => (
+          <a class="factor-card addition-card" href={`/factors/${factor.slug}`}>
+            <div class="card-topline">
+              <span class="card-number">{factor.numeral}</span>
+              <span class="card-category">{factor.category}</span>
+            </div>
+            <h4>{factor.title}</h4>
+            <p>{factor.tagline}</p>
+            <span class="card-arrow" aria-hidden="true">↗</span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
-  <section class="factors" id="factors">
-    <div class="group-head">
-      <h2>The Foundation</h2>
-      <span class="range">I — XII</span>
-      <span class="tag">modernized classics</span>
-    </div>
-    <div class="grid">
-      {foundation.map((f: any) => (
-        <a class="card" href={`/factors/${f.slug}`}>
-          <div class="numeral">
-            <span class="roman">{f.numeral}</span>
-            <span>{String(f.number).padStart(2, '0')} / 22</span>
-          </div>
-          <h3>{f.title}</h3>
-          <p>{f.tagline}</p>
-          <div class="ghost" aria-hidden="true">{f.numeral}</div>
-        </a>
-      ))}
+  <section class="evidence-section">
+    <div class="section-intro evidence-intro">
+      <div>
+        <p class="section-label">03 · Evidence, not vibes</p>
+        <h2>Built from the work<br />that came after.</h2>
+      </div>
+      <a class="button button-dark" href="/research">Open the annotated research</a>
     </div>
 
-    <div class="group-head">
-      <h2>The Ten New Factors</h2>
-      <span class="range">XIII — XXII</span>
-      <span class="tag new">new in 22-factor</span>
+    <div class="evidence-grid">
+      <a href="https://www.oreilly.com/library/view/beyond-the-twelve-factor/9781492042631/" rel="noopener noreferrer">
+        <span>2016 · Kevin Hoffman</span>
+        <h3>API first. Telemetry. Identity.</h3>
+        <p>The clearest direct critique of what the original twelve left unnamed.</p>
+      </a>
+      <a href="https://sre.google/sre-book/table-of-contents/" rel="noopener noreferrer">
+        <span>Google SRE</span>
+        <h3>SLOs, error budgets, release safety.</h3>
+        <p>Reliability is a product behavior with a measurable control loop.</p>
+      </a>
+      <a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">
+        <span>NIST · OpenSSF</span>
+        <h3>Security belongs in the lifecycle.</h3>
+        <p>Identity, privacy, provenance, and secure development cannot be bolt-ons.</p>
+      </a>
+      <a href="https://www.finops.org/framework/principles/" rel="noopener noreferrer">
+        <span>FinOps · Green Software</span>
+        <h3>Usage has a bill and a footprint.</h3>
+        <p>Cost, energy, carbon, and hardware are architecture signals.</p>
+      </a>
     </div>
-    <div class="grid">
-      {additions.map((f: any) => (
-        <a class="card new" href={`/factors/${f.slug}`}>
-          <div class="numeral">
-            <span class="roman">{f.numeral}</span>
-            <span>{String(f.number).padStart(2, '0')} / 22</span>
-          </div>
-          <h3>{f.title}</h3>
-          <p>{f.tagline}</p>
-          <div class="ghost" aria-hidden="true">{f.numeral}</div>
-        </a>
-      ))}
+  </section>
+
+  <section class="closing-cta">
+    <p class="section-label">Use it, challenge it, improve it</p>
+    <h2>A methodology should be<br />a conversation, not scripture.</h2>
+    <p>
+      The original twelve became useful because teams argued with them in public.
+      This project is MIT-licensed and intentionally opinionated. Bring evidence.
+    </p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="/factors/codebase">Read Factor I <span aria-hidden="true">→</span></a>
+      <a class="button button-secondary" href="https://github.com/22-factor-apps/22-factor-apps.github.io/issues" rel="noopener noreferrer">Open a discussion ↗</a>
     </div>
   </section>
 </Base>

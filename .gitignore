@@ -6,13 +6,10 @@ zed_modules/
 dist/
 .astro/
 
-# decrypted config — NEVER commit decrypted env files (see Factor XIII)
-env/dec/*
-!env/dec/.gitkeep
-
-# plaintext env files anywhere in the tree
-*.env
-!env/enc/*.env.enc
+# local configuration and secrets
+.env
+.env.*
+!.env.example
 
 # misc
 .DS_Store

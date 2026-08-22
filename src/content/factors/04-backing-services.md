@@ -3,32 +3,66 @@ number: 4
 numeral: "IV"
 slug: backing-services
 title: "Backing Services"
-tagline: "Treat backing services as attached resources"
+tagline: "Treat every network dependency as an attached, replaceable resource"
 original: true
+category: "Architecture"
+reading: "5 min"
 ---
 
-A **backing service** is anything the app consumes over the network: databases,
-message queues, caches, SMTP relays, object stores, third-party APIs. A
-twenty-two-factor app makes no distinction between local and third-party services —
-both are **attached resources**, addressed by a handle (URL plus credentials) held in
-config.
+Databases, queues, object stores, caches, mail systems, identity providers, model
+endpoints, and third-party APIs are all backing services. Whether your team operates
+them or a vendor does, application code should reach them through explicit resource
+handles and narrow contracts—not assumptions about where or by whom they run.
 
-A deploy should be able to swap a local PostgreSQL for a managed one, or one email
-provider for another, purely by changing config — no code changes, no redeploy of a
-different artifact. Resources can be attached and detached at will: when a database
-misbehaves, you attach a fresh replica restored from backup and detach the old one.
+## The principle
 
-Two modern refinements:
+Attach a backing service through configuration. The application depends on its
+contract and required capabilities, not on a hostname compiled into source or a
+privileged SDK used everywhere. Replacing one conforming instance with another should
+be an operational change, with any true incompatibilities isolated behind an adapter.
 
-**Handles come from the encrypted config chain.** The URL-and-credential handle for
-each resource is exactly the kind of value that belongs in `env/enc/` (see
-[Factor XIII](/factors/encrypted-config)) — versioned, encrypted, auditable — with
-rotation performed as an ordinary reviewed commit.
+“Replaceable” does not mean “identical.” A local emulator, a managed production
+service, and a self-hosted alternative may differ in latency, limits, consistency,
+failure modes, and supported features. [Factor IX](/factors/environment-parity)
+requires representative behavior and contract tests—not pretending those differences
+do not exist.
 
-**Know which of your resources hold connections open.** Stateless HTTP backends can
-treat attachment as instantaneous, but resources speaking long-lived protocols —
-database connection pools, message-bus consumers, WebSocket fan-out layers — need the
-drain-and-reattach discipline described in
-[Factor XVIII](/factors/stateful-connections).
+## What good looks like
 
-*Adapted from Factor IV of the original [twelve-factor methodology](https://12factor.net/backing-services).*
+- Give each attachment an explicit owner, configuration handle, data classification,
+  SLO or expectation, capacity limit, and exit plan.
+- Centralize protocol concerns: authentication, timeouts, bounded retries, idempotency
+  keys, connection pools, rate limits, and error translation. Product code should not
+  improvise these differently at every call site.
+- Test contracts against real service versions. Emulators are useful for speed but
+  cannot be the only evidence for production compatibility.
+- Design failure behavior deliberately. Decide which requests fail fast, degrade,
+  queue, use stale data, or shed load when the dependency is slow or unavailable.
+  [Factor XV](/factors/resilience-fault-containment) handles the wider fault boundary.
+- Make data migration and rollback part of replacement planning. Switching a URL is
+  easy; preserving correctness, ordering, and privacy is the real work.
+
+Resource handles should identify the attachment without granting universal authority.
+Prefer workload identity and narrowly scoped, short-lived credentials over one shared
+secret that turns every service into the same security boundary.
+
+## Common failure modes
+
+Treating an internal database as a local library, calling a vendor SDK throughout the
+domain model, allowing unbounded client retries, assuming “managed” means infallible,
+or sharing one production credential across every deploy all create hidden coupling.
+So does depending on undocumented behavior that only one provider happens to offer.
+
+A backing service is also not replaceable if the team has never rehearsed restore,
+export, quota exhaustion, credential rotation, or regional failure.
+
+## Litmus test
+
+> Can a staging attachment be replaced with a fresh compatible instance by changing
+> configuration, running documented migration steps, and passing automated contract
+> tests—without editing application source?
+
+Repeat the test with the service slow, rate-limited, and unavailable. Replaceability
+includes predictable failure, not only the happy-path handshake.
+
+*Modernized from [Factor IV of the original twelve-factor methodology](https://12factor.net/backing-services).*

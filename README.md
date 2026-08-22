@@ -1,72 +1,89 @@
 # The Twenty-Two-Factor App
 
-Source for **[22-factor-apps.github.io](https://22-factor-apps.github.io)** — a
-modern, open-source methodology for building software-as-a-service apps.
+Source for **[22-factor-apps.github.io](https://22-factor-apps.github.io)**: an
+open-source field guide for building software that can be understood, trusted,
+changed, and operated.
 
-Factors I–XII are a modernized restatement of the
-[twelve-factor methodology](https://12factor.net) (credit: Adam Wiggins and
-contributors at Heroku). Factors XIII–XXII are new:
+This edition keeps ten durable principles from the original
+[twelve-factor methodology](https://12factor.net/), retires two mechanisms whose
+intent is better expressed elsewhere, and adds twelve modern production obligations.
 
-| # | Factor | In one line |
-|---|--------|-------------|
-| XIII | Encrypted Config in the Codebase | commit config encrypted in `env/enc/`, decrypt to `env/dec/*.env` (gitignored) |
-| XIV | Root Secrets Outside the Repo | 1–2 root secrets (e.g. the decryption key) live in an external service like fiducia-cloud |
-| XV | OCI, Not Docker | build/run/distribute against the OCI specs, not one vendor's toolchain |
-| XVI | Virtual Containers & Virtual OSes | consider microVMs (Firecracker/Kata), gVisor, unikernels |
-| XVII | Immutable Infrastructure | bake AMIs/machine images; replace, never mutate |
-| XVIII | Own Your Long-Lived Connections | TCP/WebSocket discipline: drain, externalize session state, design for reconnect |
-| XIX | Deploy Tags, Not Branches | production runs annotated git tags, never branch tips |
-| XX | Humans in the Loop | explicit, recorded approval gates where blast radius lives |
-| XXI | Review Like You Mean It | small diffs, fast turnaround, machines before humans |
-| XXII | A Deliberate Merge Policy | choose merge vs rebase on purpose; never rewrite shared history |
+## The set
 
-## Tech
+| # | Factor | Class | Core idea |
+|---:|---|---|---|
+| I | Codebase | Original | One authoritative history for every deploy |
+| II | Dependencies | Original | Declare, resolve, verify, and isolate everything |
+| III | Configuration | Original | Bind deploy-specific values after build |
+| IV | Backing Services | Original | Treat network dependencies as attached resources |
+| V | Build, Release, Run | Original | Create once, bind once, promote without mutation |
+| VI | Stateless Processes | Original | Persist through explicit backing services |
+| VII | Concurrency | Original | Scale with explicit process types and bounds |
+| VIII | Disposability | Original | Start promptly, stop gracefully, recover by replacement |
+| IX | Environment Parity | Original | Keep feedback fast and production behavior representative |
+| X | Admin Processes | Original | Run operational work from the same release |
+| XI | Contract-First Interfaces | New | Define behavior before transport |
+| XII | Identity & Least Privilege | New | Authenticate every actor; authorize every action |
+| XIII | Observability & SLOs | New | Connect signals to user-visible decisions |
+| XIV | Supply Chain Integrity | New | Make artifacts traceable, verifiable, and admissible |
+| XV | Resilience & Fault Containment | New | Bound failure amplification |
+| XVI | Data Lifecycle & Privacy | New | Govern data from collection through deletion |
+| XVII | Infrastructure & Policy as Code | New | Declare desired state and reconcile drift |
+| XVIII | Progressive Delivery | New | Expand exposure with evidence |
+| XIX | Evolutionary Compatibility | New | Let consecutive versions coexist |
+| XX | Operational Ownership | New | Give every service a team and learning loop |
+| XXI | Cost as Architecture | New | Tie usage to value and budgets |
+| XXII | Sustainable Operation | New | Reduce physical impact per unit of useful work |
 
-Built with [Astro](https://astro.build). Plain content collections, no client-side
-JavaScript, one stylesheet.
+The retired originals are **Port Binding** and **Logs as Event Streams**. Port
+binding remains a good implementation pattern, but Contract-First Interfaces is the
+transport-neutral principle. Structured logs remain essential, but Observability &
+SLOs covers the complete signal and decision model. The site keeps detailed
+[retirement notes](https://22-factor-apps.github.io/retired) and credits the original
+authors.
+
+## Research lineage
+
+The three most direct additions—API first, telemetry, and authentication / authorization—
+come from Kevin Hoffman’s *Beyond the Twelve-Factor App*. The remaining additions
+synthesize primary guidance from Google SRE, CNCF and OpenGitOps, NIST, SLSA,
+Semantic Versioning and Kubernetes, the FinOps Foundation, and the Green Software
+Foundation. The site publishes an [annotated research trail](https://22-factor-apps.github.io/research).
+
+## Local development
+
+The site is deliberately small: Astro builds static HTML from 22 Markdown documents,
+one shared layout, and one stylesheet. It ships no client-side JavaScript and fetches
+no web fonts.
 
 ```sh
-npm install     # Astro toolchain (npm registry)
-npm run dev     # local dev server
-npm run build   # static build into dist/
+npm ci
+npm run build
+npm run dev
 ```
 
-### Dependency management
+Factor documents live in `src/content/factors/`. Each includes frontmatter used by the
+index and article layout, followed by the principle, concrete practices, failure
+modes, a litmus test, and source lineage.
 
-- **npm** manages the Astro toolchain — Astro is distributed exclusively through the
-  npm registry, so `package.json` declares it (Factor II: declare everything).
-- **[zed-pkg](https://zpkg.net)** manages VCS-hosted dependencies: `.zpkg.toml` is the
-  manifest, `.zpkg.lock` pins tag + commit. Add forge-hosted deps with
-  `zed add <org>/<name>@^1` and install with `zed install --frozen`
-  (`brew install zed-pkg`).
+## Deployment
 
-## Deploying (we dogfood Factor XIX)
-
-Merging to `main` deploys **nothing**. The site deploys when a version tag is pushed:
+GitHub Pages deploys an immutable version tag through
+`.github/workflows/deploy.yml`. The workflow installs from `package-lock.json`, builds
+the static site, and uploads the Pages artifact.
 
 ```sh
-git tag -a v0.2.0 -m "describe the release"
+git tag -a v0.2.0 -m "Twenty-Two-Factor field guide"
 git push origin v0.2.0
 ```
 
-`.github/workflows/deploy.yml` builds the tag and publishes to GitHub Pages.
+The workflow can also be dispatched manually for recovery. Third-party actions are
+pinned to exact commits; update the commit and version comment together.
 
-### First-time bootstrap
+## License and credit
 
-```sh
-export GH_TOKEN=ghp_...            # PAT with repo+workflow scope on the org
-./scripts/create-and-push.sh       # verifies build, creates repo, pushes main + v0.1.0, enables Pages
-```
+[MIT](LICENSE) © 2026 The 22-Factor Apps Authors.
 
-## Repo layout notes
-
-- `env/enc/` — the reference implementation of Factor XIII lives right here:
-  encrypted env files are committed; `env/dec/` is gitignored and holds decrypted
-  output at deploy time only. See `env/enc/README.md`.
-- `src/content/factors/*.md` — one markdown file per factor; the site builds itself
-  from these.
-
-## License
-
-[MIT](LICENSE) © 2026 The 22-Factor Apps Authors. Inspired by, and linking back to,
-[12factor.net](https://12factor.net); not affiliated with Heroku or Salesforce.
+This project is inspired by and links to the
+[original twelve-factor methodology](https://12factor.net/) created by Adam Wiggins
+and contributors at Heroku. It is not affiliated with Heroku or Salesforce.

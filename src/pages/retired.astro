@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Retired Factors — The Twenty-Two-Factor App"
+  description="Why Port Binding and Logs as Event Streams were retired from the modern Twenty-Two-Factor App set, and where their durable intent now lives."
+>
+  <section class="content-page">
+    <header class="content-page-header">
+      <div>
+        <p class="section-label">Twelve original − two retired</p>
+        <h1>Nothing is sacred.<br />Intent survives.</h1>
+      </div>
+      <p>
+        Retirement does not mean these ideas were wrong. It means their useful
+        intent is now better expressed by broader, transport-neutral principles.
+        Historical credit remains with the original authors.
+      </p>
+    </header>
+
+    <div class="retired-list">
+      <article class="retired-entry" id="port-binding">
+        <div class="retired-entry-meta"><div class="retired-stamp">Retired<br />VII</div></div>
+        <div>
+          <h2>Port Binding</h2>
+          <p>
+            In 2011, “export services via port binding” was a sharp correction to
+            application code that depended on a separately injected web server. It
+            made a service self-contained and gave platforms a simple routing
+            contract. That remains a good implementation pattern for network services.
+          </p>
+          <p>
+            It is no longer universal enough to be a top-level application factor.
+            Event consumers, scheduled jobs, serverless functions, mobile apps,
+            stream processors, WebAssembly components, and command-line tools may
+            expose useful capability without listening on any port. Even for a web
+            service, the meaningful contract is its behavior—not the socket on which
+            one runtime happens to receive traffic.
+          </p>
+          <p>
+            Its durable intent now lives in <a href="/factors/contract-first-interfaces">Factor XI: Contract-First Interfaces</a>.
+            A process can still bind to <code>$PORT</code>; it simply is not asked to
+            mistake that mechanism for the whole interface.
+          </p>
+          <a href="https://12factor.net/port-binding" rel="noopener noreferrer">Read the original Factor VII ↗</a>
+        </div>
+      </article>
+
+      <article class="retired-entry" id="logs">
+        <div class="retired-entry-meta"><div class="retired-stamp">Retired<br />XI</div></div>
+        <div>
+          <h2>Logs as Event Streams</h2>
+          <p>
+            The original advice—write an event stream and let the execution
+            environment route and retain it—helped end the era of application-owned
+            log files, custom rotation, and server-by-server archaeology. Structured
+            standard output remains an excellent platform contract.
+          </p>
+          <p>
+            But logs alone cannot answer modern reliability questions. Distributed
+            systems need correlated traces, metrics, profiles, deployment markers,
+            audit events, and synthetic checks. More importantly, signals need to be
+            connected to user-visible service-level objectives and an operational
+            response. Shipping a terabyte of JSON per day is not observability.
+          </p>
+          <p>
+            Its durable intent now lives in <a href="/factors/observability-slos">Factor XIII: Observability &amp; SLOs</a>.
+            Logs remain one essential signal, with explicit privacy, cardinality,
+            retention, and correlation requirements.
+          </p>
+          <a href="https://12factor.net/logs" rel="noopener noreferrer">Read the original Factor XI ↗</a>
+        </div>
+      </article>
+    </div>
+  </section>
+</Base>

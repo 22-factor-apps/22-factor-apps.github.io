@@ -3,29 +3,68 @@ number: 1
 numeral: "I"
 slug: codebase
 title: "Codebase"
-tagline: "One codebase tracked in revision control, many deploys"
+tagline: "One authoritative history for every deploy of an application"
 original: true
+category: "Source"
+reading: "4 min"
 ---
 
-A twenty-two-factor app is always tracked in a version control system — today that
-almost always means git, though the principle is VCS-agnostic. There is exactly one
-codebase per app: a single repository from which every deploy of that app is produced.
+Every running instance of an application should be explainable from one authoritative
+version-control history. Production, staging, review environments, and developer
+machines may run different revisions, but they are deploys of the same codebase—not
+hand-maintained cousins that merely resemble one another.
 
-If there are multiple codebases, it's not an app — it's a distributed system, and each
-component in that system is its own app that can individually follow the factors.
-Conversely, multiple apps sharing the same code is a violation: shared code should be
-factored into libraries and pulled in through the dependency manager (see
-[Factor II](/factors/dependencies)).
+## The principle
 
-A **deploy** is a running instance of the app: production, staging, review apps, and
-every developer's local copy. All of them share the same codebase, even though each
-deploy may be running a different commit — and, under this methodology, production is
-always running a **tagged** commit (see [Factor XIX](/factors/deploy-tags)).
+A **codebase** is the history from which a deployable application is built. One
+codebase can produce many deploys; one deploy must not be assembled from mystery
+files, a laptop’s unpushed changes, or code copied between repositories. If two
+components can be built, released, scaled, and retired independently, treat them as
+separate applications even when they live in a monorepo.
 
-The one modern refinement we make to the original: the codebase now legitimately
-carries more than application code. Infrastructure definitions, deploy workflows, and
-**encrypted** configuration (see [Factor XIII](/factors/encrypted-config)) all belong
-in the same repository, so that a single `git checkout <tag>` reproduces not just the
-software but the shape of its deployment.
+This distinction matters. “One app, one repository” is a useful default, not a law.
+A monorepo can contain many applications when each has an explicit build root,
+ownership boundary, dependency graph, and release identity. Conversely, splitting one
+application across repositories does not create healthy modularity if a release still
+requires an undocumented combination of branch tips.
 
-*Adapted from Factor I of the original [twelve-factor methodology](https://12factor.net/codebase).*
+## What good looks like
+
+- Every artifact records the source revision, build definition, and repository that
+  produced it. Operators can move from a running instance back to reviewed source.
+- Infrastructure definitions, database migrations, interface schemas, and delivery
+  workflows that must change with the application are versioned beside it or pinned
+  by digest from another authoritative codebase.
+- Shared code becomes a declared dependency with an owner and version. It is not
+  copied into several trees and patched independently.
+- Branches are collaboration surfaces. A release identifies an immutable revision,
+  and [Factor V](/factors/build-release-run) turns that revision into one immutable
+  artifact promoted across environments.
+
+The purpose is not repository tidiness. It is **causal clarity**: when behavior
+changes, there is one inspectable history of who changed what, why it was reviewed,
+which evidence passed, and where the resulting artifact ran.
+
+## Common failure modes
+
+Watch for deployment scripts that copy files from a shared server, hotfixes performed
+directly on production hosts, environment-specific branches that drift for months,
+libraries vendored by copy-and-paste, or a “release” assembled from whatever happens
+to be at the tip of several repositories. Each creates a state that version control
+cannot faithfully reproduce.
+
+Also avoid mistaking a huge repository for a single application. If no team can name
+the deployable boundaries, a monorepo becomes a correlated-release machine rather
+than a source-of-truth advantage.
+
+## Litmus test
+
+> Pick any running instance. Can an engineer identify one immutable source revision,
+> rebuild its artifact without private workstation state, and explain every other
+> codebase that contributed through pinned dependencies?
+
+If the answer requires guessing a branch, asking who last copied a file, or checking
+an unversioned server directory, the application does not have an authoritative
+codebase yet.
+
+*Modernized from [Factor I of the original twelve-factor methodology](https://12factor.net/codebase).*

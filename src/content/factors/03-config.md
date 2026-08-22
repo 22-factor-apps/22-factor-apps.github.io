@@ -2,36 +2,69 @@
 number: 3
 numeral: "III"
 slug: config
-title: "Config"
-tagline: "Configuration varies per deploy; code does not"
+title: "Configuration"
+tagline: "Keep deploy-specific values out of immutable application artifacts"
 original: true
+category: "Runtime"
+reading: "5 min"
 ---
 
-An app's **config** is everything that varies between deploys: resource handles to
-databases and caches, credentials to external services, per-environment hostnames.
-Code is the same across all deploys; config is what differs. The original twelve-factor
-test still holds: could the codebase be open-sourced this minute without compromising
-any credentials?
+Configuration is everything that legitimately varies between deploys: resource
+addresses, feature policy, regional settings, credentials, and operational limits.
+It must be supplied explicitly at release or runtime, never baked into application
+code or smuggled in through an environment-specific build.
 
-The original methodology answered this with environment variables kept *outside* the
-codebase — the `.env`-file era. Twenty-two-factor keeps the strict **separation of
-config from code**, but rejects the conclusion that config must therefore live outside
-version control. Unversioned `.env` files scattered across laptops and CI settings
-pages are unauditable, undiffable, easy to lose, and drift silently between deploys.
+## The principle
 
-Instead, this methodology splits config handling across three factors:
+Build one artifact and bind deploy-specific configuration later. The application
+reads values through a small, documented interface—environment variables, mounted
+files, or a configuration service—and validates the complete configuration before it
+begins accepting work.
 
-- **[Factor XIII](/factors/encrypted-config)** — config lives *in* the repo, encrypted,
-  under `env/enc/`, and is decrypted at deploy time to `env/dec/*.env`, which is never
-  committed.
-- **[Factor XIV](/factors/root-secrets)** — the one or two root secrets that make
-  decryption possible live outside the repo in an external secret service such as
-  fiducia-cloud.
-- The app itself still reads plain environment variables at runtime, exactly as the
-  original Factor III prescribed. Nothing about your application code changes; what
-  changes is where the values are stored and how they are audited.
+Separating config from code does **not** mean configuration should be unversioned or
+ownerless. Schemas, safe defaults, policy, encrypted values, and non-secret desired
+state can be reviewed in version control. Secret plaintext belongs in a dedicated
+secret system or a short-lived deployment boundary. Encrypted configuration may be
+committed when key custody is genuinely separate, but encryption is not permission
+to scatter credentials through source trees.
 
-Config remains granular per deploy, never grouped into named "environments" baked into
-the code.
+## What good looks like
 
-*Adapted from Factor III of the original [twelve-factor methodology](https://12factor.net/config).*
+- Define a typed schema with purpose, owner, required/optional status, safe range,
+  sensitivity, and reload behavior for every setting.
+- Fail closed at startup when required values are missing or malformed. Do not run
+  half-configured and discover the error on the first production request.
+- Use orthogonal values rather than named environment bundles. A deploy chooses a
+  database handle, region, and feature policy independently; it does not inherit an
+  opaque `production.rb` full of unrelated decisions.
+- Make sensitive values short-lived, narrowly scoped, redacted from diagnostics, and
+  rotatable without rebuilding the artifact. [Factor XII](/factors/identity-least-privilege)
+  covers workload identity and least privilege.
+- Record a non-secret configuration fingerprint with each release so operators can
+  correlate behavior without exposing values.
+
+Config changes are production changes. They deserve validation, review, progressive
+exposure, and rollback just like code. A feature flag that can redirect all traffic
+has a larger blast radius than many source patches.
+
+## Common failure modes
+
+Hard-coded service URLs, credentials in source, one artifact per environment,
+plaintext `.env` files passed through chat, unlimited feature-flag accumulation, and
+configuration with no schema or owner all violate the intent. So does a centralized
+configuration service that can mutate every instance instantly without history,
+approval, or compatibility checks.
+
+Avoid secrets in command-line arguments, where process listings and shell histories
+may expose them. Avoid logging the entire environment during startup or failure.
+
+## Litmus test
+
+> Could the repository become public and the released artifact be copied to another
+> environment without disclosing a credential or rebuilding—and would the process
+> reject an incomplete configuration before serving traffic?
+
+That test is stricter than “we use environment variables.” It checks separation,
+validation, secrecy, and portability together.
+
+*Modernized from [Factor III of the original twelve-factor methodology](https://12factor.net/config).*
