@@ -1,0 +1,61 @@
+# One-time bootstrap (safe to delete after the first successful run).
+# Downloads the site tree from the bootstrap-payload release asset, commits it
+# to main, tags v0.1.0, builds the Astro site, and deploys it to GitHub Pages.
+
+name: bootstrap
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unpack site tree, commit, tag v0.1.0
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release download bootstrap-payload --pattern site-payload.tar.gz --dir /tmp --repo "$GITHUB_REPOSITORY"
+          tar -xzf /tmp/site-payload.tar.gz -C .
+          git config user.name "22-factor-apps bootstrap"
+          git config user.email "alexander.d.mills@gmail.com"
+          git add -A
+          git commit -m "feat: initial 22-factor-apps methodology site (Astro)" || echo "nothing new to commit"
+          git push
+          git tag -fa v0.1.0 -m "initial public release of the 22-factor methodology site"
+          git push -f origin v0.1.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build site
+        run: |
+          npm install
+          npm run build
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
