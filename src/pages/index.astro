@@ -1,0 +1,100 @@
+---
+import Base from '../layouts/Base.astro';
+
+const modules = import.meta.glob('../factors/*.md', { eager: true });
+const factors = Object.values(modules)
+  .map((m: any) => m.frontmatter)
+  .sort((a: any, b: any) => a.number - b.number);
+
+const foundation = factors.filter((f: any) => f.original);
+const additions = factors.filter((f: any) => !f.original);
+---
+
+<Base title="The Twenty-Two-Factor App">
+  <section class="hero">
+    <div class="watermark" aria-hidden="true">22</div>
+    <p class="kicker">A methodology for modern software-as-a-service</p>
+    <h1>The <span class="n22">Twenty&#8209;Two</span>-<wbr />Factor App</h1>
+    <p class="lede">
+      Twelve factors got us to the cloud. These twenty-two are for what came after:
+      encrypted config living in the repo, OCI everything, microVMs, immutable fleets,
+      tag-cut releases — and the humans who review, approve, and merge it all.
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="/factors/codebase">Start reading — Factor I →</a>
+      <a class="btn" href="#factors">Browse all 22</a>
+      <a class="btn" href="https://github.com/22-factor-apps" rel="noopener">Star on GitHub</a>
+    </div>
+  </section>
+
+  <section class="intro" id="why">
+    <div class="cell">
+      <h2>Where it comes from</h2>
+      <p>
+        In 2011, the <a href="https://12factor.net" rel="noopener">twelve-factor
+        methodology</a> distilled how the best SaaS apps were built. It aged
+        remarkably well — and the world still moved: containers became a standard,
+        infrastructure became disposable, secrets management grew up, and delivery
+        pipelines got humans and AI working side by side.
+      </p>
+    </div>
+    <div class="cell">
+      <h2>What changed</h2>
+      <p>
+        The biggest reversal is config. The <code>.env</code>-file era left the most
+        security-critical part of every system unversioned and unauditable. We commit
+        config <em>encrypted</em> in the codebase, decrypt at deploy time, and keep
+        only one or two root secrets outside the repo, in an external service.
+      </p>
+    </div>
+    <div class="cell">
+      <h2>How to read it</h2>
+      <p>
+        Factors I–XII restate the originals with modern refinements — full credit to
+        their authors. Factors XIII–XXII are new. Each factor is a page you can read
+        in three minutes and argue about for a career. It's all MIT-licensed; PRs
+        welcome.
+      </p>
+    </div>
+  </section>
+
+  <section class="factors" id="factors">
+    <div class="group-head">
+      <h2>The Foundation</h2>
+      <span class="range">I — XII</span>
+      <span class="tag">modernized classics</span>
+    </div>
+    <div class="grid">
+      {foundation.map((f: any) => (
+        <a class="card" href={`/factors/${f.slug}`}>
+          <div class="numeral">
+            <span class="roman">{f.numeral}</span>
+            <span>{String(f.number).padStart(2, '0')} / 22</span>
+          </div>
+          <h3>{f.title}</h3>
+          <p>{f.tagline}</p>
+          <div class="ghost" aria-hidden="true">{f.numeral}</div>
+        </a>
+      ))}
+    </div>
+
+    <div class="group-head">
+      <h2>The Ten New Factors</h2>
+      <span class="range">XIII — XXII</span>
+      <span class="tag new">new in 22-factor</span>
+    </div>
+    <div class="grid">
+      {additions.map((f: any) => (
+        <a class="card new" href={`/factors/${f.slug}`}>
+          <div class="numeral">
+            <span class="roman">{f.numeral}</span>
+            <span>{String(f.number).padStart(2, '0')} / 22</span>
+          </div>
+          <h3>{f.title}</h3>
+          <p>{f.tagline}</p>
+          <div class="ghost" aria-hidden="true">{f.numeral}</div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

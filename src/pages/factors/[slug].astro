@@ -1,0 +1,67 @@
+---
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const modules = import.meta.glob('../../factors/*.md', { eager: true });
+  const entries = Object.values(modules).sort(
+    (a: any, b: any) => a.frontmatter.number - b.frontmatter.number
+  );
+
+  return entries.map((entry: any, i: number) => ({
+    params: { slug: entry.frontmatter.slug },
+    props: {
+      entry,
+      prev: i > 0 ? entries[i - 1] : null,
+      next: i < entries.length - 1 ? entries[i + 1] : null,
+    },
+  }));
+}
+
+const { entry, prev, next } = Astro.props as any;
+const { Content } = entry;
+const f = entry.frontmatter;
+---
+
+<Base
+  title={`Factor ${f.numeral}. ${f.title} — The Twenty-Two-Factor App`}
+  description={f.tagline}
+>
+  <header class="article-head">
+    <p class="crumbs">
+      <a href="/">22-factor-apps</a> / <a href="/#factors">factors</a> / {f.slug}
+    </p>
+    <div class="numeral-line">
+      <span class="roman">Factor {f.numeral}</span>
+      {f.original ? (
+        <span class="pill">modernized classic</span>
+      ) : (
+        <span class="pill new">new in 22-factor</span>
+      )}
+    </div>
+    <h1>{f.title}</h1>
+    <p class="tagline">{f.tagline}</p>
+  </header>
+
+  <article class="article-body">
+    <Content />
+  </article>
+
+  <nav class="pager" aria-label="Factor navigation">
+    {prev ? (
+      <a href={`/factors/${prev.frontmatter.slug}`}>
+        <span class="dir">← Prev · {prev.frontmatter.numeral}</span>
+        <span class="t">{prev.frontmatter.title}</span>
+      </a>
+    ) : (
+      <span class="spacer"></span>
+    )}
+    {next ? (
+      <a class="next" href={`/factors/${next.frontmatter.slug}`}>
+        <span class="dir">Next · {next.frontmatter.numeral} →</span>
+        <span class="t">{next.frontmatter.title}</span>
+      </a>
+    ) : (
+      <span class="spacer"></span>
+    )}
+  </nav>
+</Base>
