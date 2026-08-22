@@ -1,0 +1,94 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'The Twenty-Two-Factor App — a modern, open-source methodology for building software-as-a-service apps. Twelve classic factors, ten new ones.',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="inner">
+        <a class="wordmark" href="/">
+          <span class="badge">22</span>
+          <span>factor<span class="slash">/</span>apps</span>
+        </a>
+        <nav class="site-nav">
+          <a href="/#factors">The Factors</a>
+          <a href="/#why">Why 22</a>
+          <a href="https://github.com/22-factor-apps" rel="noopener">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="inner">
+        <div>
+          <h4>Lineage</h4>
+          <p>
+            22-factor-apps stands on the shoulders of the
+            <a href="https://12factor.net" rel="noopener">twelve-factor methodology</a>
+            created by Adam Wiggins and contributors at Heroku. The first twelve
+            factors here are our modernized restatement of that work; the ten that
+            follow are what a decade of running production systems taught us to add.
+          </p>
+        </div>
+        <div>
+          <h4>Open Source</h4>
+          <p>
+            This methodology and site are open source under the
+            <a href="https://github.com/22-factor-apps/22-factor-apps.github.io/blob/main/LICENSE" rel="noopener">MIT License</a>.
+            Discussion, dissent, and pull requests are welcome at
+            <a href="https://github.com/22-factor-apps" rel="noopener">github.com/22-factor-apps</a>.
+          </p>
+        </div>
+        <div>
+          <h4>Colophon</h4>
+          <p>
+            Built with <a href="https://astro.build" rel="noopener">Astro</a>.
+            Deployed to GitHub Pages from signed git tags — never from a branch
+            (that's <a href="/factors/deploy-tags">Factor XIX</a>, and yes, we
+            dogfood it).
+          </p>
+        </div>
+      </div>
+      <div class="legal">
+        <div class="legal-inner">
+          <span>© 2026 The 22-Factor Apps Authors · MIT</span>
+          <span>inspired by 12factor.net · not affiliated with Heroku</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

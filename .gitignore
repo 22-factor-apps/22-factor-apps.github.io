@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+zed_modules/
+
+# build output
+dist/
+.astro/
+
+# decrypted config — NEVER commit decrypted env files (see Factor XIII)
+env/dec/*
+!env/dec/.gitkeep
+
+# plaintext env files anywhere in the tree
+*.env
+!env/enc/*.env.enc
+
+# misc
+.DS_Store
+npm-debug.log*
