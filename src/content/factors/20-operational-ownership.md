@@ -68,6 +68,19 @@ Shared platform teams must not become a dumping ground for application behavior 
 cannot change. Define the interface and escalation between service and platform
 ownership explicitly.
 
+## Ownership begins at review
+
+Operating what you build starts before anything runs: the same team that will
+be paged for a change reviews it. Keep changes small enough to review
+honestly, keep first response fast enough that authors don't batch work into
+unreviewable lumps, and let machines enforce style so human attention goes to
+failure modes, operability, and rollback paths. Approval means "I could be
+paged for this and would know what to do"—that standard, applied by at least
+one non-author, is what makes the on-call rotation an ownership structure
+rather than an alarm relay. The same principle gates operations: irreversible
+production actions get a named approver with real context, recorded where the
+next responder can find it.
+
 ## Litmus test
 
 > Wake a qualified but non-author engineer with one production symptom. Can they find
