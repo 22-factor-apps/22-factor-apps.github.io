@@ -57,6 +57,19 @@ Vendoring is not automatically safer. Checked-in dependency source still needs a
 origin, version, update path, license record, and integrity story. A repository full
 of abandoned copies is a dependency graph with its labels removed.
 
+## Dependencies from forges
+
+Language registries are not the only source of dependencies. When a dependency
+lives in a forge—an internal library, a sibling application's client, a tool
+distributed as source—install it as a package with pinned provenance, never as a
+vendored copy or a floating clone. Version-control-native package managers such
+as [zed-pkg](https://zpkg.net) resolve a semver range to a tag, pin the tag and
+the commit hash in a lockfile, and fetch a pruned artifact rather than repository
+history. The team standard: registry-distributed toolchains stay in the language
+manifest; forge-hosted dependencies are declared in `.zpkg.toml` and locked in
+`.zpkg.lock`, so both kinds of input satisfy the same test—declared, resolved,
+verified, and isolated.
+
 ## Litmus test
 
 > Start from a minimal clean builder with only the declared bootstrap toolchain. Can
