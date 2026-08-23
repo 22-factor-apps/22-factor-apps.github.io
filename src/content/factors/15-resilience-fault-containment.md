@@ -68,6 +68,20 @@ but wrong data all amplify failure.
 “The orchestrator restarts it” addresses process death, not duplicated side effects,
 corrupted state, dependency saturation, or region-wide loss.
 
+## Isolation is a containment decision
+
+The blast radius of compromised or misbehaving code is set by its isolation
+boundary, and that boundary should be chosen, not inherited. Namespace
+containers share the host kernel—appropriate for trusted first-party services.
+Sandboxed runtimes such as gVisor interpose a userspace kernel; microVMs
+(Firecracker, Kata Containers) give each workload its own kernel with boot
+times measured in milliseconds; unikernels and WASM sandboxes shrink the
+surface further for single-purpose or plugin-sized code. Because the artifact
+is a standard container image, moving a workload up the spectrum is a
+runtime-class annotation, not a rewrite. Classify workloads by the worst code
+that could run in them—multi-tenant, customer-submitted, or AI-generated code
+sits high on that list—and map each class to a tier in writing.
+
 ## Litmus test
 
 > Inject latency and errors into one important dependency under peak representative
