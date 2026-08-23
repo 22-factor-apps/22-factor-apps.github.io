@@ -68,6 +68,18 @@ A passing vulnerability scan is not a trust proof. It says known signatures were
 found at one time; it does not establish source review, builder integrity, provenance,
 or freedom from malicious behavior.
 
+## Standards keep the chain replaceable
+
+Provenance is easier to keep when every layer speaks a standard. Build
+container images to the OCI specifications with daemonless, standards-first
+tooling—Buildah, BuildKit, kaniko, or reproducible builders—rather than against
+one vendor's toolchain, and run them on any conformant runtime. Address images
+by digest, not mutable tag; sign them and attach SBOM and provenance as OCI
+artifacts at build time, verifying at admission. The payoff is the same as
+everywhere else in the chain: builder, registry, and runtime each become
+replaceable evidence-preserving links, and no single vendor's roadmap can hold
+the pipeline hostage.
+
 ## Litmus test
 
 > Select a production artifact by digest. Can an independent verifier prove which
