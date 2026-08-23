@@ -74,6 +74,18 @@ into concentrated risk.
 Declarative syntax does not guarantee idempotency or safety. Test provider behavior,
 imports, moves, replacement semantics, and partial failure.
 
+## Immutable machine images
+
+Desired state reconciles cleanly only onto substrates that do not drift. Bake
+machine images—AMIs and their equivalents—in the pipeline from a versioned
+definition, so the operating system, hardening, and runtime arrive as a tested
+artifact tied to the tag that produced it. Changing a host means rolling
+replacement from a new image behind the load balancer; patching means
+rebuilding; rollback means relaunching yesterday's image, which still exists.
+In-place mutation—the SSH session, the hotfixed unit file—is break-glass,
+logged, and followed by the instance's termination, because a hand-modified
+host is a fork of desired state that no reconciler can see.
+
 ## Litmus test
 
 > Can the team recreate a representative environment from reviewed desired state,
