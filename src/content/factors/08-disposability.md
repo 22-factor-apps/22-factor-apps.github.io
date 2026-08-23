@@ -54,6 +54,18 @@ of unobservable warmup all reduce disposability.
 An orchestrator’s “restart on failure” policy is not a recovery design. Without safe
 startup and idempotent work, it can repeatedly amplify the original fault.
 
+## Draining long-lived connections
+
+Termination is hardest where connections live longest. A process holding
+WebSockets, server-sent events, or raw TCP sessions treats the socket as the
+only state it owns: everything the connection means—identity, subscriptions,
+undelivered messages—lives in a backing service, so any replica can resume the
+session from a token and a cursor. On the termination signal, fail readiness
+first, announce closure at the protocol level (close 1001, GOAWAY), and spread
+client departure across a grace period sized to the reconnect herd rather than
+a default thirty seconds. Clients reconnect with jittered backoff and replay
+from their cursor; a deploy at peak then costs a blip, not a session.
+
 ## Litmus test
 
 > Under representative traffic, terminate a random instance during startup, steady
