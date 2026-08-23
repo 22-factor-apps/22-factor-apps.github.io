@@ -57,6 +57,21 @@ Also avoid mistaking a huge repository for a single application. If no team can 
 the deployable boundaries, a monorepo becomes a correlated-release machine rather
 than a source-of-truth advantage.
 
+## One history, curated deliberately
+
+An authoritative history stays authoritative only if the team curates it the same
+way every time. Choose one landing strategy—rebase feature branches and squash, or
+merge commits that preserve deliberate series—then encode it in the forge's
+settings and disable the alternatives. Shared history is immutable: once commits
+are on a branch others consume, they are never rewritten, and force-push stays
+reserved for an author's own unshared work.
+
+Review is part of the history, not an obstacle to it. Every change lands through a
+small, reviewed request with at least one non-author approval, and review latency
+is a team agreement—slow review quietly manufactures the oversized diffs it then
+struggles to read. Six months later, `git log` should read as a sequence of
+reviewed decisions, each explaining what changed and why.
+
 ## Litmus test
 
 > Pick any running instance. Can an engineer identify one immutable source revision,
