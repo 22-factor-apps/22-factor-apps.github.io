@@ -1,148 +1,288 @@
 ---
 import Base from '../layouts/Base.astro';
 
-const sources = [
+const editorialTests = [
   {
     number: '01',
-    label: 'Direct extension · 2016',
-    title: 'Beyond the Twelve-Factor App',
-    body: 'Kevin Hoffman offered the most direct published extension of the original methodology. He kept the core model and named three omissions: API-first design, telemetry, and authentication and authorization. Those map directly to Factors XI, XIII, and XII in this guide.',
-    points: [
-      'API-first becomes Contract-First Interfaces so the principle also covers events, queues, CLIs, and data contracts.',
-      'Telemetry becomes Observability & SLOs so signals are connected to user-visible reliability decisions.',
-      'Authentication and authorization becomes Identity & Least Privilege, covering people, workloads, devices, and short-lived credentials.',
-    ],
-    href: 'https://www.oreilly.com/library/view/beyond-the-twelve-factor/9781492042631/',
-    source: 'O’Reilly Media',
+    title: 'Broadly applicable',
+    body: 'The pressure must matter across languages, vendors, and workload shapes. A useful specialty rule can remain an overlay instead of becoming a universal factor.',
   },
   {
     number: '02',
-    label: 'Reliability · SRE',
-    title: 'Measure behavior, engineer for failure',
-    body: 'Google’s Site Reliability Engineering books made several post-2011 obligations concrete: define service-level indicators and objectives, use error budgets to balance reliability and change, automate repeatable operations, canary releases, and learn through incident response and blameless postmortems.',
-    points: [
-      'Factors XIII, XV, XVIII, and XX turn those practices into application-level design constraints.',
-      'A dashboard is not a reliability objective. A release pipeline is not safe merely because it is automated.',
-      'The system must expose the signals and control points that operations need before launch, not after the first outage.',
-    ],
-    href: 'https://sre.google/sre-book/table-of-contents/',
-    source: 'Google SRE',
+    title: 'Architecturally load-bearing',
+    body: 'Ignoring it must create a recurring production failure, unsafe default, or lifecycle dead end—not merely miss a fashionable tool or preferred implementation.',
   },
   {
     number: '03',
-    label: 'Cloud native · CNCF',
-    title: 'Observable, portable, interoperable, available',
-    body: 'The CNCF reference architecture describes cloud-native systems in terms that go beyond packaging: workloads should be observable, portable, interoperable, and available. OpenTelemetry supplies a vendor-neutral signal model; OpenGitOps defines declarative, versioned, automatically reconciled desired state.',
-    points: [
-      'Factor XI focuses on semantic interoperability rather than a particular port or protocol.',
-      'Factor XIII uses traces, metrics, logs, and profiles as correlated evidence—not isolated tooling silos.',
-      'Factor XVII treats infrastructure and policy as reviewable desired state and continuously detects drift.',
-    ],
-    href: 'https://architecture.cncf.io/',
-    source: 'Cloud Native Computing Foundation',
+    title: 'Distinct enough',
+    body: 'The factor needs its own design decision and evidence. Related concerns can overlap, but two labels must not reward the same work twice.',
   },
   {
     number: '04',
-    label: 'Security · NIST / OpenSSF',
-    title: 'Security is a lifecycle property',
-    body: 'NIST’s Secure Software Development Framework says secure practices must be integrated into each software-development lifecycle. Its Zero Trust architecture removes implicit network trust. SLSA adds verifiable build provenance and increasing supply-chain assurance.',
-    points: [
-      'Factor XII requires explicit identity and authorization at every protected resource boundary.',
-      'Factor XIV requires locked dependencies, isolated builds, SBOMs, provenance, signatures, and admission verification.',
-      'Security claims must be backed by machine-verifiable evidence and exercised incident response.',
-    ],
-    href: 'https://csrc.nist.gov/pubs/sp/800/218/final',
-    source: 'NIST SSDF · SLSA',
+    title: 'Falsifiable in practice',
+    body: 'A team must be able to fail a litmus test. Aspirations without an observable boundary, owner, or decision do not qualify as commandments.',
   },
   {
     number: '05',
-    label: 'Data · NIST Privacy',
-    title: 'Design the complete data lifecycle',
-    body: 'The NIST Privacy Framework treats processing as a complete lifecycle: collection, retention, transformation, use, disclosure, sharing, transmission, and disposal. A system that can store data but cannot explain, export, minimize, or delete it is operationally incomplete.',
-    points: [
-      'Factor XVI makes classification, minimization, retention, deletion, and recovery behavior part of the design.',
-      'Privacy work starts during planning and is verified through build, deploy, operation, and decommissioning.',
-      'Backups, analytics copies, logs, derived features, and model inputs belong to the same lifecycle map.',
+    title: 'Durable under change',
+    body: 'The wording names intent and system behavior. Ports, vendors, orchestration products, and deployment fashions may change without invalidating the rule.',
+  },
+];
+
+const comparisons = [
+  {
+    number: '01',
+    label: 'Direct lineage · 2011–2016',
+    title: 'Twelve-Factor + Fifteen-Factor',
+    focus: 'Portable, deployable cloud applications',
+    overlap: 'I–XIII',
+    borrowed: 'The durable original ten remain the foundation. Kevin Hoffman’s API-first, telemetry, and authentication/authorization additions become Contract-First Interfaces, Observability & SLOs, and Secure by Design.',
+    contrast: 'This guide retires transport-specific port binding and promotes logs into a complete signal-and-decision model. It broadens API-first beyond HTTP and broadens identity into the full secure-development lifecycle.',
+    sources: [
+      { label: 'Original Twelve-Factor App', href: 'https://12factor.net/' },
+      { label: 'Beyond the Twelve-Factor App', href: 'https://www.oreilly.com/library/view/beyond-the-twelve-factor/9781492042631/' },
+      { label: 'IBM’s Fifteen-Factor review', href: 'https://developer.ibm.com/articles/15-factor-applications/' },
     ],
-    href: 'https://www.nist.gov/privacy-framework/privacy-framework',
-    source: 'NIST Privacy Framework',
+  },
+  {
+    number: '02',
+    label: 'Runtime architecture · 2014',
+    title: 'The Reactive Manifesto',
+    focus: 'Responsive, resilient, elastic, message-driven systems',
+    overlap: 'VII, XIII, XV',
+    borrowed: 'Bounded response time, backpressure, isolation, elasticity, and failure containment sharpen Concurrency, Observability & SLOs, and Resilience & Fault Containment.',
+    contrast: 'Message-driven architecture is a strong pattern, not a universal commandment for every CLI, embedded workload, batch process, or local application. The Twenty-Two-Factor set specifies outcomes and bounds without prescribing one communication model.',
+    sources: [
+      { label: 'The Reactive Manifesto', href: 'https://www.reactivemanifesto.org/' },
+    ],
+  },
+  {
+    number: '03',
+    label: 'Reliability · SRE / Chaos',
+    title: 'SRE + Principles of Chaos Engineering',
+    focus: 'Measurable reliability under realistic disturbance',
+    overlap: 'VIII, XIII, XV, XVIII, XX',
+    borrowed: 'SLIs, SLOs, error budgets, release safety, production readiness, steady-state hypotheses, realistic failure injection, and bounded experiments make reliability claims testable.',
+    contrast: 'SRE is an operating discipline and Chaos is an empirical practice; neither is reduced here to a checkbox. Their evidence loops support several factors rather than becoming a vague “test more” commandment.',
+    sources: [
+      { label: 'Google SRE books', href: 'https://sre.google/books/' },
+      { label: 'Principles of Chaos Engineering', href: 'https://principlesofchaos.org/' },
+    ],
+  },
+  {
+    number: '04',
+    label: 'Delivery research · DORA',
+    title: 'DORA Capabilities',
+    focus: 'Delivery performance, organizational outcomes, and wellbeing',
+    overlap: 'I, V, IX, XVIII, XIX, XX',
+    borrowed: 'Version control, continuous delivery, small changes, loosely coupled teams, monitoring, database change management, maintainability, customer feedback, and sustainable pace reinforce the delivery and ownership commandments.',
+    contrast: 'DORA reports empirically associated capabilities and outcomes; this guide states architectural obligations. It deliberately avoids turning deployment frequency or any single metric into a universal target detached from context.',
+    sources: [
+      { label: 'DORA capabilities catalog', href: 'https://dora.dev/capabilities/' },
+      { label: 'DORA on continuous delivery', href: 'https://dora.dev/capabilities/continuous-delivery/' },
+    ],
+  },
+  {
+    number: '05',
+    label: 'Architecture review · Cloud providers',
+    title: 'Well-Architected Frameworks',
+    focus: 'Cross-pillar workload quality and explicit trade-offs',
+    overlap: 'VII, XII–XVIII, XX–XXII',
+    borrowed: 'Operational excellence, security, reliability, performance efficiency, cost, and sustainability confirm that production quality is multi-dimensional and that improving one dimension can tax another.',
+    contrast: 'Provider frameworks are deep review catalogs. This guide is a shorter, vendor-neutral set of application pressures. Performance is cross-cutting through Concurrency, SLOs, Resilience, Cost, and Sustainability rather than a context-free demand to be “fast.”',
+    sources: [
+      { label: 'AWS Well-Architected pillars', href: 'https://docs.aws.amazon.com/wellarchitected/latest/framework/the-pillars-of-the-framework.html' },
+      { label: 'Google Cloud Well-Architected', href: 'https://cloud.google.com/architecture/framework' },
+      { label: 'Azure Well-Architected', href: 'https://learn.microsoft.com/azure/well-architected/' },
+    ],
   },
   {
     number: '06',
-    label: 'Evolution · SemVer / Kubernetes',
-    title: 'Compatibility is a production feature',
-    body: 'Semantic Versioning begins with a declared public API and communicates incompatible change explicitly. Kubernetes goes further with formal API deprecation and data-conversion guarantees. Both reflect the same lesson: distributed consumers do not upgrade atomically.',
-    points: [
-      'Factor XIX requires additive-first changes, explicit versioning, deprecation telemetry, migration windows, and removal criteria.',
-      'Database schemas, event payloads, configuration, and operational procedures are contracts too.',
-      'Progressive delivery controls exposure; compatibility controls coexistence. They are related but not interchangeable.',
+    label: 'Cloud-native systems · CNCF / GitOps',
+    title: 'CNCF Architecture + OpenGitOps',
+    focus: 'Portable, interoperable, observable, resilient desired state',
+    overlap: 'IV, XI, XIII, XV, XVII',
+    borrowed: 'Interoperable contracts, vendor-neutral telemetry, declarative versioned state, automatic reconciliation, and continuous drift detection shape the application and infrastructure boundaries.',
+    contrast: 'Cloud native is one deployment context, not the definition of modern software. The commandments also apply to mobile, desktop, edge, embedded, local-first, and regulated systems where Kubernetes or GitOps may be the wrong implementation.',
+    sources: [
+      { label: 'CNCF Cloud Native Architecture', href: 'https://architecture.cncf.io/' },
+      { label: 'OpenGitOps principles', href: 'https://opengitops.dev/' },
     ],
-    href: 'https://semver.org/',
-    source: 'Semantic Versioning · Kubernetes API',
   },
   {
     number: '07',
-    label: 'Economics · FinOps',
-    title: 'Usage is an engineering decision',
-    body: 'The FinOps Foundation puts accountability for technology usage at the edge: engineers should own cost from architecture through ongoing operation, with timely and accurate data. That turns spend from a monthly surprise into a feedback signal.',
-    points: [
-      'Factor XXI assigns cost to workloads, tenants, features, and business outcomes.',
-      'Budgets and anomaly detection are operational controls; unit economics makes trade-offs visible.',
-      'The aim is not indiscriminate cost cutting. It is maximizing delivered value under explicit constraints.',
+    label: 'Security lifecycle · OWASP / NIST / CISA',
+    title: 'SAMM + SSDF + Secure by Design',
+    focus: 'Security ownership from requirements through operations',
+    overlap: 'XII, XIV, XVI, XX',
+    borrowed: 'Threat modeling, security requirements, safe defaults, verification, vulnerability response, supply-chain evidence, and responsibility for customer security outcomes broaden the earlier identity-only rule.',
+    contrast: 'SAMM is a maturity model and SSDF is a practice catalog. Factor XII is the compressed architectural commandment; it does not replace either framework, a domain threat model, or a formal safety case.',
+    sources: [
+      { label: 'OWASP SAMM', href: 'https://owaspsamm.org/model/' },
+      { label: 'NIST Secure Software Development Framework', href: 'https://csrc.nist.gov/pubs/sp/800/218/final' },
+      { label: 'CISA Secure by Design', href: 'https://www.cisa.gov/securebydesign' },
     ],
-    href: 'https://www.finops.org/framework/principles/',
-    source: 'FinOps Foundation',
   },
   {
     number: '08',
-    label: 'Sustainability · Green Software',
-    title: 'Efficiency has a physical footprint',
-    body: 'The Green Software Foundation identifies energy efficiency, carbon awareness, and hardware efficiency as the direct levers software teams can use to reduce emissions. AWS likewise added sustainability as a Well-Architected pillar alongside reliability, security, and cost.',
-    points: [
-      'Factor XXII measures useful work per unit of energy, carbon, water, and hardware—not just aggregate cloud spend.',
-      'Right-sizing, demand shaping, data minimization, and carbon-aware scheduling frequently improve cost and reliability too.',
-      'Teams document trade-offs so sustainability work does not quietly violate latency, privacy, or availability needs.',
+    label: 'People and change · 2001',
+    title: 'Manifesto for Agile Software Development',
+    focus: 'People, working software, collaboration, and response to change',
+    overlap: 'IX, XI, XVIII–XX',
+    borrowed: 'Outcome Ownership now starts with representative user evidence and gives an empowered team a feedback loop spanning discovery, delivery, operations, safety, and retirement.',
+    contrast: 'The Agile Manifesto is about values for making software; this guide is about system properties and lifecycle evidence. Neither can substitute for the other, and process labels do not prove architectural fitness.',
+    sources: [
+      { label: 'Manifesto for Agile Software Development', href: 'https://agilemanifesto.org/' },
+      { label: 'The twelve Agile principles', href: 'https://agilemanifesto.org/principles.html' },
     ],
-    href: 'https://learn.greensoftware.foundation/introduction/',
-    source: 'Green Software Foundation',
+  },
+  {
+    number: '09',
+    label: 'User agency · 2019',
+    title: 'Local-first Software',
+    focus: 'Speed, offline use, longevity, privacy, and user control',
+    overlap: 'VI, XI, XV, XVI, XIX, XX',
+    borrowed: 'Data Lifecycle & Privacy now treats portable export, durable formats, offline usefulness, and provider exit as practical agency—not just compliance workflows.',
+    contrast: 'Local-first is compelling for user-authored and collaborative data, but central authority is appropriate for banking, marketplaces, and other domains. The factor requires agency and lifecycle control without prescribing CRDTs or device-primary storage.',
+    sources: [
+      { label: 'Ink & Switch: Local-first Software', href: 'https://www.inkandswitch.com/essay/local-first/' },
+    ],
+  },
+  {
+    number: '10',
+    label: 'Responsible technology · Sustainability',
+    title: 'Sustainable Web + Green Software + FinOps',
+    focus: 'Efficient, open, honest, resilient technology within physical limits',
+    overlap: 'XVI, XX–XXII',
+    borrowed: 'Useful-work units, energy and hardware efficiency, carbon awareness, cost attribution, accessibility, honesty, and explicit trade-offs connect resource use to value and harm.',
+    contrast: 'Cost and environmental impact remain separate because price is not a physical impact signal. “Renewable” and offsets do not excuse waste, while efficiency work must not export harm into accessibility, privacy, labor, or reliability.',
+    sources: [
+      { label: 'Sustainable Web Manifesto', href: 'https://www.sustainablewebmanifesto.com/' },
+      { label: 'Green Software principles', href: 'https://learn.greensoftware.foundation/introduction/' },
+      { label: 'FinOps principles', href: 'https://www.finops.org/framework/principles/' },
+    ],
+  },
+  {
+    number: '11',
+    label: 'Specialized extension · AI',
+    title: 'Google’s Sixteen-Factor AI Extension',
+    focus: 'Prompts, model state, non-deterministic quality, and AI trust',
+    overlap: 'I, II, VI, XII–XVI, XX–XXII',
+    borrowed: 'Prompts, context logic, behavioral specifications, models, evaluation sets, and guardrails are first-class versioned inputs. Quality and tool-use safety must be measured as product behavior, not inferred from HTTP success.',
+    contrast: 'AI introduces distinct hazards, but they fit the universal rules: prompts and specs are source, models are dependencies, memory is state, evaluations are SLO evidence, tools require least privilege, and humans still own outcomes. AI-specific standards remain an overlay.',
+    sources: [
+      { label: 'From Twelve to Sixteen-Factor AI Apps', href: 'https://cloud.google.com/transform/from-the-twelve-to-sixteen-factor-app' },
+    ],
   },
 ];
 ---
 
 <Base
-  title="Research Trail — The Twenty-Two-Factor App"
-  description="The sources, critiques, and design decisions behind the Twenty-Two-Factor App methodology."
+  title="Comparative Research — The Twenty-Two-Factor App"
+  description="How the Twenty-Two-Factor App compares with the Fifteen-Factor App, Reactive Manifesto, SRE, Chaos, DORA, Well-Architected frameworks, secure-by-design guidance, Agile, Local-first, sustainable software, and AI extensions."
 >
-  <section class="content-page">
+  <section class="content-page research-page">
     <header class="content-page-header">
       <div>
-        <p class="section-label">Annotated research trail</p>
-        <h1>Evidence before<br />enumeration.</h1>
+        <p class="section-label">Comparative research · 2026.2</p>
+        <h1>Borrow the pressure.<br />Reject the costume.</h1>
       </div>
       <p>
-        Twenty-two is not a magic number. It is an editorial compression of the
-        strongest recurring gaps in post-2011 cloud-native practice. This page makes
-        the compression—and the judgment behind it—inspectable.
+        A credible manifesto should show its competitors, not merely cite its ancestor.
+        This comparison asks what each body of work optimizes, what the Twenty-Two-
+        Factor App adopts, and where it deliberately refuses a universal claim.
       </p>
     </header>
 
-    <div class="research-list">
-      {sources.map((item) => (
-        <article class="research-entry">
-          <div class="research-entry-meta">
-            <span>{item.number}</span>
-            {item.label}
-          </div>
-          <div>
-            <h2>{item.title}</h2>
-            <p>{item.body}</p>
-            <ul>
-              {item.points.map((point) => <li>{point}</li>)}
-            </ul>
-            <a href={item.href} rel="noopener noreferrer">Read the primary source: {item.source} ↗</a>
-          </div>
-        </article>
-      ))}
-    </div>
+    <section class="editorial-method" aria-labelledby="selection-test-title">
+      <div class="research-section-heading">
+        <p class="section-label">01 · The selection test</p>
+        <h2 id="selection-test-title">A factor must earn<br />the number.</h2>
+        <p>
+          Twenty-two is editorial compression, not numerology. A practice enters the
+          set only when it passes all five tests; otherwise it remains a useful pattern,
+          specialty overlay, standard, or implementation guide.
+        </p>
+      </div>
+
+      <div class="editorial-tests">
+        {editorialTests.map((test) => (
+          <article>
+            <span>{test.number}</span>
+            <h3>{test.title}</h3>
+            <p>{test.body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="comparison-section" aria-labelledby="comparison-title">
+      <div class="research-section-heading comparison-heading">
+        <p class="section-label">02 · Compare and contrast</p>
+        <h2 id="comparison-title">Eleven lenses.<br />One compressed set.</h2>
+        <p>
+          “Overlap” names the factors most directly pressured by each source; it does
+          not claim equivalence. The distinctions matter as much as the borrowings.
+        </p>
+      </div>
+
+      <div class="comparison-list">
+        {comparisons.map((item) => (
+          <article class="comparison-entry">
+            <div class="comparison-entry-meta">
+              <span>{item.number}</span>
+              {item.label}
+            </div>
+            <div class="comparison-entry-main">
+              <h3>{item.title}</h3>
+              <dl class="comparison-facts">
+                <div>
+                  <dt>Optimizes for</dt>
+                  <dd>{item.focus}</dd>
+                </div>
+                <div>
+                  <dt>Strongest overlap</dt>
+                  <dd>{item.overlap}</dd>
+                </div>
+              </dl>
+              <div class="comparison-argument">
+                <div>
+                  <h4>What this guide borrows</h4>
+                  <p>{item.borrowed}</p>
+                </div>
+                <div>
+                  <h4>Where this guide differs</h4>
+                  <p>{item.contrast}</p>
+                </div>
+              </div>
+              <div class="source-links" aria-label={`Sources for ${item.title}`}>
+                {item.sources.map((source) => (
+                  <a href={source.href} rel="noopener noreferrer">{source.label} ↗</a>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="scope-boundary" aria-labelledby="scope-title">
+      <p class="section-label">03 · Honest boundary</p>
+      <h2 id="scope-title">A field guide is not<br />a complete profession.</h2>
+      <div>
+        <p>
+          These commandments do not replace user research, accessibility standards,
+          secure-development maturity models, domain regulation, formal safety cases,
+          incident command, engineering management, or specialty guidance for AI,
+          medical, financial, embedded, and other high-consequence systems.
+        </p>
+        <p>
+          Their job is narrower: expose the cross-cutting architectural pressures that
+          are easiest to postpone and hardest to retrofit, state a boundary against
+          cargo culting, and leave every claim open to evidence and revision.
+        </p>
+      </div>
+      <a class="button button-primary" href="/#factors">Read the 22 commandments <span aria-hidden="true">→</span></a>
+    </section>
   </section>
 </Base>

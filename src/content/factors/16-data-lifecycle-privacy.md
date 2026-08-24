@@ -4,6 +4,8 @@ numeral: "XVI"
 slug: data-lifecycle-privacy
 title: "Data Lifecycle & Privacy"
 tagline: "Minimize, classify, govern, and delete data across every copy"
+commandment: "Collect only justified data; preserve user agency; govern every copy through verifiable deletion."
+boundary: "Encryption protects bytes, but it does not justify collection, confer user control, or complete retention and deletion."
 original: false
 category: "Trust"
 reading: "7 min"
@@ -14,12 +16,14 @@ collected. Design its complete lifecycle—from collection and derivation throug
 sharing, retention, backup, and disposal—before production creates copies no one can
 find or govern.
 
-## The principle
+## The commandment
 
 Collect the minimum data necessary for a stated purpose. Classify it, identify its
 subjects and owner, constrain where it may flow, protect it in transit and at rest,
-retain it only as long as justified, and make access, correction, export, and deletion
-operational capabilities rather than emergency projects.
+retain it only as long as justified, and make access, correction, portable export, and
+deletion operational capabilities rather than emergency projects. When the product
+domain permits, preserve useful offline access and open, durable formats so a provider
+outage or shutdown does not erase the user’s agency over their own work.
 
 Privacy is not synonymous with encryption. Encryption protects bytes from some forms
 of access; it does not justify collection, prevent misuse by an authorized service,
@@ -54,6 +58,9 @@ support access, and downstream compatibility.
   scoped, attributable, time-limited, and visible to audit.
 - Exercise restore, export, residency failover, key rotation, corruption recovery,
   and subject-request workflows under realistic volume.
+- Make export complete enough to use elsewhere, documented, and available without a
+  support escalation. For user-authored work, test what remains usable when the network
+  or provider is unavailable and how long-lived formats can be recovered.
 
 Immutability and deletion can conflict. Resolve the tension deliberately: append a
 cryptographic tombstone, isolate eras under destroyable keys, minimize personal data
@@ -83,7 +90,10 @@ An unknown copy or manual spreadsheet breaks the chain.
 
 The NIST Privacy Framework defines data processing across collection, retention,
 transformation, use, disclosure, sharing, transmission, and disposal, and aligns
-privacy outcomes with the full system-development lifecycle. This factor makes that
-scope an application architecture obligation.
+privacy outcomes with the full system-development lifecycle. Local-first software adds
+a complementary user lens: offline availability, longevity, privacy, portable data,
+and ultimate user control. This factor makes both lifecycle governance and practical
+agency application-architecture obligations without prescribing a local-first design
+for domains that require central authority.
 
-*Sources: [NIST Privacy Framework](https://www.nist.gov/privacy-framework/privacy-framework) and [NIST guidance for applying it to the SDLC](https://www.nist.gov/privacy-framework/using-privacy-framework-11).*
+*Sources: [NIST Privacy Framework](https://www.nist.gov/privacy-framework/privacy-framework), [NIST guidance for applying it to the SDLC](https://www.nist.gov/privacy-framework/using-privacy-framework-11), and [Ink & Switch on Local-first Software](https://www.inkandswitch.com/essay/local-first/).*

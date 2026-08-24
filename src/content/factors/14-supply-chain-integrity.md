@@ -4,6 +4,8 @@ numeral: "XIV"
 slug: supply-chain-integrity
 title: "Supply Chain Integrity"
 tagline: "Make every artifact traceable, verifiable, and admissible"
+commandment: "Admit only artifacts traceable to reviewed source, declared inputs, and verifiable builds."
+boundary: "An SBOM, signature, or provenance statement records evidence; none eliminates the need to decide what and whom to trust."
 original: false
 category: "Security"
 reading: "7 min"
@@ -14,7 +16,7 @@ toolchains, runners, registries, deployment systems, and the people or workloads
 authorized to operate them. Protecting application source while trusting every other
 link implicitly does not protect the artifact users run.
 
-## The principle
+## The commandment
 
 Every released artifact should be traceable to reviewed source and declared inputs,
 built by an identified and hardened process, accompanied by verifiable provenance and

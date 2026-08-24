@@ -3,7 +3,9 @@ number: 1
 numeral: "I"
 slug: codebase
 title: "Codebase"
-tagline: "One authoritative history for every deploy of an application"
+tagline: "Make every deploy traceable to one authoritative source history"
+commandment: "Map every deploy to one authoritative source history."
+boundary: "This requires traceable release identity, not one repository per service or a ban on monorepos."
 original: true
 category: "Source"
 reading: "4 min"
@@ -14,7 +16,7 @@ version-control history. Production, staging, review environments, and developer
 machines may run different revisions, but they are deploys of the same codebase—not
 hand-maintained cousins that merely resemble one another.
 
-## The principle
+## The commandment
 
 A **codebase** is the history from which a deployable application is built. One
 codebase can produce many deploys; one deploy must not be assembled from mystery

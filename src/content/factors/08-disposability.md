@@ -4,6 +4,8 @@ numeral: "VIII"
 slug: disposability
 title: "Disposability"
 tagline: "Start promptly, stop gracefully, and recover by replacement"
+commandment: "Start ready, stop safely, and remain correct when termination is abrupt."
+boundary: "Graceful shutdown improves recovery; correctness must not depend on receiving it."
 original: true
 category: "Reliability"
 reading: "5 min"
@@ -14,7 +16,7 @@ maintenance, or failure demands it. Fast startup increases scheduling freedom;
 graceful shutdown protects in-flight work; crash-safe recovery prevents replacement
 from becoming data corruption.
 
-## The principle
+## The commandment
 
 Treat process lifetime as controlled but uncertain. On startup, validate
 configuration, establish only necessary connections, advertise readiness after real

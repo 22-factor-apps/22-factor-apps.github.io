@@ -4,6 +4,8 @@ numeral: "III"
 slug: config
 title: "Configuration"
 tagline: "Keep deploy-specific values out of immutable application artifacts"
+commandment: "Build without deploy-specific values; bind validated configuration at release or runtime."
+boundary: "External configuration is not unversioned configuration, and secrets are not ordinary environment variables."
 original: true
 category: "Runtime"
 reading: "5 min"
@@ -14,7 +16,7 @@ addresses, feature policy, regional settings, credentials, and operational limit
 It must be supplied explicitly at release or runtime, never baked into application
 code or smuggled in through an environment-specific build.
 
-## The principle
+## The commandment
 
 Build one artifact and bind deploy-specific configuration later. The application
 reads values through a small, documented interface—environment variables, mounted
@@ -38,7 +40,7 @@ to scatter credentials through source trees.
   database handle, region, and feature policy independently; it does not inherit an
   opaque `production.rb` full of unrelated decisions.
 - Make sensitive values short-lived, narrowly scoped, redacted from diagnostics, and
-  rotatable without rebuilding the artifact. [Factor XII](/factors/identity-least-privilege)
+  rotatable without rebuilding the artifact. [Factor XII](/factors/secure-by-design)
   covers workload identity and least privilege.
 - Record a non-secret configuration fingerprint with each release so operators can
   correlate behavior without exposing values.

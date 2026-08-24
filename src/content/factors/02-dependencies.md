@@ -4,6 +4,8 @@ numeral: "II"
 slug: dependencies
 title: "Dependencies"
 tagline: "Declare, resolve, verify, and isolate every dependency"
+commandment: "Declare, lock, verify, and isolate every build and runtime dependency."
+boundary: "A manifest alone is not reproducibility, and vendoring alone is not integrity."
 original: true
 category: "Build"
 reading: "5 min"
@@ -14,7 +16,7 @@ library, certificate bundle, or command happens to be installed on one machine.
 Everything required to build and run it is declared; everything resolved from those
 declarations is pinned and verifiable.
 
-## The principle
+## The commandment
 
 Use the ecosystem’s dependency declaration and isolation mechanisms. A manifest says
 what the application permits. A lockfile or equivalent resolution says exactly what

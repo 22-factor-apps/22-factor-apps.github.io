@@ -4,6 +4,8 @@ numeral: "IX"
 slug: environment-parity
 title: "Environment Parity"
 tagline: "Keep feedback fast and production behavior representative"
+commandment: "Shorten feedback and test every production-significant difference against the real system."
+boundary: "Parity means risk-representative behavior, not identical hardware, data volume, or developer environments."
 original: true
 category: "Delivery"
 reading: "5 min"
@@ -14,7 +16,7 @@ the purpose of the environment requires it. The goal is not identical scale or c
 it is to prevent meaningful differences in code, dependencies, services, policy, and
 delivery path from invalidating pre-production evidence.
 
-## The principle
+## The commandment
 
 Close three gaps. The **time gap** stays small when changes move from commit to
 production frequently. The **people gap** stays small when developers share ownership

@@ -4,6 +4,8 @@ numeral: "XV"
 slug: resilience-fault-containment
 title: "Resilience & Fault Containment"
 tagline: "Assume failure, bound amplification, and preserve the critical path"
+commandment: "Assume components fail; bound time, retries, queues, load, and blast radius, then prove recovery."
+boundary: "Retries, replicas, and restarts can amplify failure unless their budgets, independence, and correctness are tested."
 original: false
 category: "Reliability"
 reading: "7 min"
@@ -14,7 +16,7 @@ queue partition sticks, one certificate expires, or one customer sends pathologi
 load while everything else appears healthy. Design those failures as ordinary states
 with bounded consequences, not as surprises the runtime is expected to heal by magic.
 
-## The principle
+## The commandment
 
 Every remote call and shared resource needs a **failure budget**: a timeout, concurrency
 limit, retry policy, queue bound, and fallback or explicit failure behavior. Isolate
@@ -55,8 +57,11 @@ throttling, malformed responses, network partitions, process termination, capaci
 loss, and control-plane unavailability in environments representative enough to
 expose real behavior.
 
-Tie experiments to [Factor XIII](/factors/observability-slos): state the expected SLI
-impact, safety boundary, abort condition, and evidence of recovery.
+Tie experiments to [Factor XIII](/factors/observability-slos): define steady state in
+user-visible terms, state the expected SLI impact, constrain the blast radius, name the
+abort condition, and preserve evidence of recovery. Prefer realistic continuous
+experiments where their risk is bounded; simulation and staging evidence do not prove
+that production dependencies share the same failure behavior.
 
 ## Common failure modes
 
@@ -94,9 +99,11 @@ boundary is still the entire system.
 
 ## Research lineage
 
-Google SRE frames reliability through explicit risk and objectives. Amazon’s Builders’
-Library documents the practical necessity—and danger—of timeouts, retries, backoff,
-jitter, and idempotency in remote calls. CNCF architecture makes availability and
-graceful failure defining cloud-native properties.
+Google SRE frames reliability through explicit risk and objectives. The Reactive
+Manifesto makes responsiveness, resilience, elasticity, isolation, and backpressure
+composable system properties. The Principles of Chaos Engineering add empirical
+steady-state hypotheses, realistic events, continuous experiments, and minimized blast
+radius. Amazon’s Builders’ Library documents the practical necessity—and danger—of
+timeouts, retries, backoff, jitter, and idempotency in remote calls.
 
-*Sources: [Google SRE, Embracing Risk](https://sre.google/sre-book/embracing-risk/), [Amazon on idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/), and [CNCF Cloud Native Architecture](https://architecture.cncf.io/).*
+*Sources: [Google SRE, Embracing Risk](https://sre.google/sre-book/embracing-risk/), [The Reactive Manifesto](https://www.reactivemanifesto.org/), [Principles of Chaos Engineering](https://principlesofchaos.org/), [Amazon on idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/), and [CNCF Cloud Native Architecture](https://architecture.cncf.io/).*

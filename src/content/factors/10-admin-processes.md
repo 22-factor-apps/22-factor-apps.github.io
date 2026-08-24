@@ -4,6 +4,8 @@ numeral: "X"
 slug: admin-processes
 title: "Admin Processes"
 tagline: "Run operational work from the same release, with stronger controls"
+commandment: "Run administrative work from the shipped release through reviewed, auditable procedures."
+boundary: "A privileged shell with a wiki page is not a repeatable administrative process."
 original: true
 category: "Operations"
 reading: "5 min"
@@ -14,7 +16,7 @@ diagnostic consoles are application behavior. They must ship with the applicatio
 run in the same release context—not from an engineer’s stale checkout with an
 approximation of production credentials.
 
-## The principle
+## The commandment
 
 Execute administrative work as explicit one-off process types from the same immutable
 artifact, dependency set, and configuration interface as regular processes. Because

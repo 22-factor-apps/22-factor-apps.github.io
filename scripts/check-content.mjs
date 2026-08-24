@@ -39,13 +39,14 @@ const factors = files.map((file) => {
       }),
   );
 
-  for (const field of ['number', 'numeral', 'slug', 'title', 'tagline', 'original', 'category', 'reading']) {
+  for (const field of ['number', 'numeral', 'slug', 'title', 'tagline', 'commandment', 'boundary', 'original', 'category', 'reading']) {
     if (frontmatter[field] === undefined || frontmatter[field] === '') {
       fail(`${file} is missing ${field}`);
     }
   }
 
   if (!/^\d+ min$/.test(frontmatter.reading)) fail(`${file} has invalid reading time`);
+  if (!match[2].includes('## The commandment')) fail(`${file} lacks a commandment section`);
   if (!match[2].includes('## Common failure modes')) fail(`${file} lacks common failure modes`);
   if (!match[2].includes('## Litmus test')) fail(`${file} lacks a litmus test`);
   if (frontmatter.original === false && !match[2].includes('## Research lineage')) {
@@ -69,6 +70,7 @@ if (factors.some((factor, index) => factor.number !== expectedNumbers[index])) {
 const unique = (field) => new Set(factors.map((factor) => factor[field])).size === factors.length;
 if (!unique('slug')) fail('factor slugs are not unique');
 if (!unique('numeral')) fail('factor numerals are not unique');
+if (!unique('commandment')) fail('factor commandments are not unique');
 
 const originals = factors.filter((factor) => factor.original);
 const additions = factors.filter((factor) => !factor.original);

@@ -4,6 +4,8 @@ numeral: "VII"
 slug: concurrency
 title: "Concurrency"
 tagline: "Scale out through explicit process types and bounded work"
+commandment: "Partition work by process type, scale horizontally, and bound every concurrency layer."
+boundary: "More workers are not more capacity when queues, connections, contention, or downstream limits are already saturated."
 original: true
 category: "Scale"
 reading: "5 min"
@@ -14,7 +16,7 @@ processes, not by turning one machine into an irreplaceable vertical monolith. T
 application exposes its kinds of work so the runtime can scale, isolate, and operate
 them according to their actual bottlenecks.
 
-## The principle
+## The commandment
 
 Model each workload as an explicit process type: request serving, queue consumption,
 scheduled work, streaming, indexing, or another coherent unit. Scale a process type

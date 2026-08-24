@@ -4,6 +4,8 @@ numeral: "XVII"
 slug: infrastructure-policy-code
 title: "Infrastructure & Policy as Code"
 tagline: "Declare desired state, review policy, and reconcile drift continuously"
+commandment: "Express infrastructure and policy as reviewed desired state, then reconcile drift within explicit safety bounds."
+boundary: "Code can reproduce mistakes quickly; controllers need scoped authority, previews, policy tests, and observable convergence."
 original: false
 category: "Operations"
 reading: "7 min"
@@ -14,7 +16,7 @@ identity bindings, data residency, rollout strategy, and admission rules can cha
 reliability or security as profoundly as source code. Express them as declarative,
 versioned desired state and make the running system continuously accountable to it.
 
-## The principle
+## The commandment
 
 Define what should exist and which invariants must hold. Review and test that
 definition, apply it through automated controllers or pipelines, observe the actual

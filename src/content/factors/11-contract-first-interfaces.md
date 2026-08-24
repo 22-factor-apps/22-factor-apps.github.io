@@ -4,6 +4,8 @@ numeral: "XI"
 slug: contract-first-interfaces
 title: "Contract-First Interfaces"
 tagline: "Define behavior before transport and evolve it for real consumers"
+commandment: "Specify consumer-visible behavior before implementation, then evolve contracts with consumers."
+boundary: "A generated schema is not a contract unless semantics, failure behavior, compatibility, and ownership are explicit."
 original: false
 category: "Architecture"
 reading: "6 min"
@@ -14,7 +16,7 @@ not the port, framework, or broker it happens to use; it is the contract other p
 and software rely on. Define that contract before implementation, make it testable,
 and evolve it as a product.
 
-## The principle
+## The commandment
 
 Start significant capabilities with a consumer-visible interface. For an HTTP service
 that may be an OpenAPI description. For an event stream it may be an AsyncAPI schema

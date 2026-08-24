@@ -10,30 +10,30 @@ intent is better expressed elsewhere, and adds twelve modern production obligati
 
 ## The set
 
-| # | Factor | Class | Core idea |
+| # | Factor | Class | Commandment |
 |---:|---|---|---|
-| I | Codebase | Original | One authoritative history for every deploy |
-| II | Dependencies | Original | Declare, resolve, verify, and isolate everything |
-| III | Configuration | Original | Bind deploy-specific values after build |
-| IV | Backing Services | Original | Treat network dependencies as attached resources |
-| V | Build, Release, Run | Original | Create once, bind once, promote without mutation |
-| VI | Stateless Processes | Original | Persist through explicit backing services |
-| VII | Concurrency | Original | Scale with explicit process types and bounds |
-| VIII | Disposability | Original | Start promptly, stop gracefully, recover by replacement |
-| IX | Environment Parity | Original | Keep feedback fast and production behavior representative |
-| X | Admin Processes | Original | Run operational work from the same release |
-| XI | Contract-First Interfaces | New | Define behavior before transport |
-| XII | Identity & Least Privilege | New | Authenticate every actor; authorize every action |
-| XIII | Observability & SLOs | New | Connect signals to user-visible decisions |
-| XIV | Supply Chain Integrity | New | Make artifacts traceable, verifiable, and admissible |
-| XV | Resilience & Fault Containment | New | Bound failure amplification |
-| XVI | Data Lifecycle & Privacy | New | Govern data from collection through deletion |
-| XVII | Infrastructure & Policy as Code | New | Declare desired state and reconcile drift |
-| XVIII | Progressive Delivery | New | Expand exposure with evidence |
-| XIX | Evolutionary Compatibility | New | Let consecutive versions coexist |
-| XX | Operational Ownership | New | Give every service a team and learning loop |
-| XXI | Cost as Architecture | New | Tie usage to value and budgets |
-| XXII | Sustainable Operation | New | Reduce physical impact per unit of useful work |
+| I | Codebase | Original | Map every deploy to one authoritative source history. |
+| II | Dependencies | Original | Declare, lock, verify, and isolate every build and runtime dependency. |
+| III | Configuration | Original | Build without deploy-specific values; bind validated configuration later. |
+| IV | Backing Services | Original | Depend on explicit contracts; attach and replace services through configuration. |
+| V | Build, Release, Run | Original | Build once, identify releases immutably, and promote artifacts unchanged. |
+| VI | Stateless Processes | Original | Keep execution disposable and durable state behind explicit contracts. |
+| VII | Concurrency | Original | Partition work, scale horizontally, and bound every concurrency layer. |
+| VIII | Disposability | Original | Start ready, stop safely, and remain correct under abrupt termination. |
+| IX | Environment Parity | Original | Shorten feedback and test production-significant differences against reality. |
+| X | Admin Processes | Original | Run administrative work from the shipped release through auditable procedures. |
+| XI | Contract-First Interfaces | New | Specify consumer-visible behavior first, then evolve it with consumers. |
+| XII | Secure by Design | New | Make the safe path the default and verify identity, inputs, abuse, and failure. |
+| XIII | Observability & SLOs | New | Define user-visible objectives, instrument causality, and alert on actionable risk. |
+| XIV | Supply Chain Integrity | New | Admit only artifacts traceable to reviewed source and verifiable builds. |
+| XV | Resilience & Fault Containment | New | Bound time, retries, queues, load, and blast radius, then prove recovery. |
+| XVI | Data Lifecycle & Privacy | New | Collect justified data, preserve agency, and govern every copy through deletion. |
+| XVII | Infrastructure & Policy as Code | New | Express reviewed desired state and reconcile drift within safety bounds. |
+| XVIII | Progressive Delivery | New | Separate deployment from exposure and expand only while evidence holds. |
+| XIX | Evolutionary Compatibility | New | Change additively until coexistence, migration, and rollback are proved. |
+| XX | Outcome Ownership | New | Give one empowered team responsibility from user outcome through retirement. |
+| XXI | Cost as Architecture | New | Attribute resource use to outcomes and manage unit economics within budgets. |
+| XXII | Sustainable Operation | New | Deliver useful work with less physical impact without exporting harm. |
 
 The retired originals are **Port Binding** and **Logs as Event Streams**. Port
 binding remains a good implementation pattern, but Contract-First Interfaces is the
@@ -45,10 +45,12 @@ authors.
 ## Research lineage
 
 The three most direct additions—API first, telemetry, and authentication / authorization—
-come from Kevin Hoffman’s *Beyond the Twelve-Factor App*. The remaining additions
-synthesize primary guidance from Google SRE, CNCF and OpenGitOps, NIST, SLSA,
-Semantic Versioning and Kubernetes, the FinOps Foundation, and the Green Software
-Foundation. The site publishes an [annotated research trail](https://22-factor-apps.github.io/research).
+come from Kevin Hoffman’s *Beyond the Twelve-Factor App*. The current edition compares
+the set against the Reactive Manifesto, SRE, the Principles of Chaos Engineering,
+DORA, three Well-Architected frameworks, CNCF and OpenGitOps, OWASP SAMM, NIST and
+CISA secure-development guidance, the Agile Manifesto, Local-first Software, FinOps,
+sustainable-software principles, and Google’s AI-focused Sixteen-Factor extension.
+The site publishes the [full compare-and-contrast analysis](https://22-factor-apps.github.io/research).
 
 ## Local development
 
@@ -62,9 +64,9 @@ npm run build
 npm run dev
 ```
 
-Factor documents live in `src/content/factors/`. Each includes frontmatter used by the
-index and article layout, followed by the principle, concrete practices, failure
-modes, a litmus test, and source lineage.
+Factor documents live in `src/content/factors/`. Each includes a one-sentence
+commandment and a boundary against common over-reading, followed by concrete practices,
+failure modes, a litmus test, and source lineage.
 
 ## Deployment
 
@@ -73,8 +75,8 @@ GitHub Pages deploys an immutable version tag through
 the static site, and uploads the Pages artifact.
 
 ```sh
-git tag -a v0.2.0 -m "Twenty-Two-Factor field guide"
-git push origin v0.2.0
+git tag -a v0.3.0 -m "Twenty-Two-Factor comparative edition"
+git push origin v0.3.0
 ```
 
 The workflow can also be dispatched manually for recovery. Third-party actions are

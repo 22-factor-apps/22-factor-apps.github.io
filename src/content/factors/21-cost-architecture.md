@@ -4,6 +4,8 @@ numeral: "XXI"
 slug: cost-architecture
 title: "Cost as Architecture"
 tagline: "Attribute usage, measure unit economics, and design within budgets"
+commandment: "Attribute resource use to outcomes and manage unit economics within explicit budgets."
+boundary: "Cost responsibility means value-aware tradeoffs, not indiscriminate cost cutting or shifting toil and risk elsewhere."
 original: false
 category: "Efficiency"
 reading: "7 min"
@@ -14,7 +16,7 @@ bill. Cost should be visible to the teams choosing data shape, retention, model,
 region, redundancy, query, and scaling behavior—early enough to influence design, not
 weeks later as an accounting surprise.
 
-## The principle
+## The commandment
 
 Treat cost as a first-class operational signal tied to delivered value. Attribute
 usage to accountable workloads, environments, tenants, features, and teams. Measure

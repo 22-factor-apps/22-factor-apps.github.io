@@ -25,7 +25,7 @@ const progress = `${(factor.number / 22) * 100}%`;
 
 <Base
   title={`Factor ${factor.numeral}: ${factor.title} — The Twenty-Two-Factor App`}
-  description={factor.tagline}
+  description={factor.commandment}
 >
   <div class="article-progress" aria-hidden="true"><span style={`width: ${progress}`}></span></div>
 
@@ -67,6 +67,14 @@ const progress = `${(factor.number / 22) * 100}%`;
     </aside>
 
     <article class="article-body">
+      <section class="factor-thesis" aria-labelledby="factor-commandment">
+        <p class="thesis-label" id="factor-commandment">Commandment {factor.numeral}</p>
+        <p class="thesis-commandment">{factor.commandment}</p>
+        <div class="thesis-boundary">
+          <span>Boundary</span>
+          <p>{factor.boundary}</p>
+        </div>
+      </section>
       <Content />
     </article>
   </div>

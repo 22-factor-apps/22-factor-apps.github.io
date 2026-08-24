@@ -4,6 +4,8 @@ numeral: "V"
 slug: build-release-run
 title: "Build, Release, Run"
 tagline: "Create once, bind configuration once, promote without mutation"
+commandment: "Build once, identify every release immutably, and promote the same artifact unchanged."
+boundary: "Pipeline stages may share tooling, but artifact bytes and release identity must never blur."
 original: true
 category: "Delivery"
 reading: "5 min"
@@ -14,7 +16,7 @@ locked dependencies into an immutable artifact. **Release** binds that artifact 
 specific deploy configuration and records the decision. **Run** executes the release
 without changing its contents.
 
-## The principle
+## The commandment
 
 The same artifact moves through environments. Production is not rebuilt from the
 same branch with different flags, dependencies, or credentials. A release is uniquely

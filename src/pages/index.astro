@@ -27,7 +27,7 @@ const additions = factors.filter((factor: any) => !factor.original);
     </div>
 
     <div class="hero-plate" aria-label="Twelve original factors minus two retired factors plus twelve new factors equals twenty-two">
-      <div class="plate-topline"><span>Revision</span><strong>2026.1</strong></div>
+      <div class="plate-topline"><span>Revision</span><strong>2026.2</strong></div>
       <div class="plate-number" aria-hidden="true">22</div>
       <div class="plate-equation">
         <span><b>12</b> original</span>
@@ -36,7 +36,7 @@ const additions = factors.filter((factor: any) => !factor.original);
         <i>+</i>
         <span><b>12</b> missing</span>
       </div>
-      <div class="plate-status"><i aria-hidden="true"></i> Working draft · open source</div>
+      <div class="plate-status"><i aria-hidden="true"></i> Comparative edition · open source</div>
     </div>
   </section>
 
@@ -80,10 +80,10 @@ const additions = factors.filter((factor: any) => !factor.original);
         <span class="mini-index">Add / 12</span>
         <h3>Cover the production blind spots</h3>
         <p>
-          Kevin Hoffman identified API-first design, telemetry, and identity as
-          missing. SRE, zero trust, software-supply-chain, GitOps, privacy, FinOps,
-          and green-software practices expose nine more gaps. The new twelve turn
-          those lessons into compact operating principles.
+          Hoffman’s Fifteen-Factor App identified interface-first design, telemetry,
+          and identity. Reactive, SRE, Chaos, DORA, secure-by-design, GitOps,
+          privacy, Local-first, FinOps, and sustainable-software work expose the
+          remaining gaps. The new twelve compress those lessons into testable rules.
         </p>
         <a class="text-link" href="/research">Follow the research trail <span aria-hidden="true">→</span></a>
       </article>
@@ -97,9 +97,10 @@ const additions = factors.filter((factor: any) => !factor.original);
         <h2>Twenty-two pressures.<br />No maturity theater.</h2>
       </div>
       <p>
-        Each factor states a constraint, shows why it matters, names common failure
-        modes, and ends with a litmus test. Adopt them as a system; adapt their
-        implementation to your context.
+        Each factor starts with one imperative commandment and one boundary that
+        prevents a common over-reading. The article then explains the constraint,
+        names failure modes, and ends with a litmus test. Adopt the pressures as a
+        system; adapt their implementation to context.
       </p>
     </div>
 
@@ -119,7 +120,8 @@ const additions = factors.filter((factor: any) => !factor.original);
               <span class="card-category">{factor.category}</span>
             </div>
             <h4>{factor.title}</h4>
-            <p>{factor.tagline}</p>
+            <span class="card-commandment-label">Commandment</span>
+            <p>{factor.commandment}</p>
             <span class="card-arrow" aria-hidden="true">↗</span>
           </a>
         ))}
@@ -142,7 +144,8 @@ const additions = factors.filter((factor: any) => !factor.original);
               <span class="card-category">{factor.category}</span>
             </div>
             <h4>{factor.title}</h4>
-            <p>{factor.tagline}</p>
+            <span class="card-commandment-label">Commandment</span>
+            <p>{factor.commandment}</p>
             <span class="card-arrow" aria-hidden="true">↗</span>
           </a>
         ))}
@@ -154,31 +157,31 @@ const additions = factors.filter((factor: any) => !factor.original);
     <div class="section-intro evidence-intro">
       <div>
         <p class="section-label">03 · Evidence, not vibes</p>
-        <h2>Built from the work<br />that came after.</h2>
+        <h2>Compared, challenged,<br />then compressed.</h2>
       </div>
-      <a class="button button-dark" href="/research">Open the annotated research</a>
+      <a class="button button-dark" href="/research">Open the comparison</a>
     </div>
 
     <div class="evidence-grid">
       <a href="https://www.oreilly.com/library/view/beyond-the-twelve-factor/9781492042631/" rel="noopener noreferrer">
-        <span>2016 · Kevin Hoffman</span>
-        <h3>API first. Telemetry. Identity.</h3>
-        <p>The clearest direct critique of what the original twelve left unnamed.</p>
+        <span>Twelve → Fifteen</span>
+        <h3>Interfaces. Telemetry. Security.</h3>
+        <p>The direct extension—and the starting point, not the end, of this revision.</p>
       </a>
-      <a href="https://sre.google/sre-book/table-of-contents/" rel="noopener noreferrer">
-        <span>Google SRE</span>
-        <h3>SLOs, error budgets, release safety.</h3>
-        <p>Reliability is a product behavior with a measurable control loop.</p>
+      <a href="https://www.reactivemanifesto.org/" rel="noopener noreferrer">
+        <span>Reactive · SRE · Chaos</span>
+        <h3>Responsiveness must survive failure.</h3>
+        <p>Reliability is a user-visible claim to test under realistic disturbance.</p>
       </a>
-      <a href="https://csrc.nist.gov/pubs/sp/800/218/final" rel="noopener noreferrer">
-        <span>NIST · OpenSSF</span>
-        <h3>Security belongs in the lifecycle.</h3>
-        <p>Identity, privacy, provenance, and secure development cannot be bolt-ons.</p>
+      <a href="https://dora.dev/capabilities/" rel="noopener noreferrer">
+        <span>DORA · Agile · Secure by Design</span>
+        <h3>Own outcomes, not component uptime.</h3>
+        <p>User evidence, safety, delivery, and operations belong to one feedback loop.</p>
       </a>
-      <a href="https://www.finops.org/framework/principles/" rel="noopener noreferrer">
-        <span>FinOps · Green Software</span>
-        <h3>Usage has a bill and a footprint.</h3>
-        <p>Cost, energy, carbon, and hardware are architecture signals.</p>
+      <a href="https://cloud.google.com/transform/from-the-twelve-to-sixteen-factor-app" rel="noopener noreferrer">
+        <span>Local-first · Sustainable · AI</span>
+        <h3>Agency and quality survive the cloud.</h3>
+        <p>Specialized manifestos pressure-test the universal rules without bloating them.</p>
       </a>
     </div>
   </section>

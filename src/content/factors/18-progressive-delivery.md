@@ -4,6 +4,8 @@ numeral: "XVIII"
 slug: progressive-delivery
 title: "Progressive Delivery"
 tagline: "Separate deployment from exposure and expand change with evidence"
+commandment: "Separate deployment from exposure; expand change only while evidence and abort controls hold."
+boundary: "A canary, flag, or staged rollout is not safe without representative traffic, decision thresholds, and a practiced stop path."
 original: false
 category: "Delivery"
 reading: "7 min"
@@ -14,7 +16,7 @@ the change is safe for every production user, workload shape, dependency state, 
 region. Release in small steps, observe real behavior, and stop exposure before weak
 signals become a global incident.
 
-## The principle
+## The commandment
 
 Separate **deployment**—placing a verified artifact into an environment—from
 **release**—exposing behavior to users or work. Progress through increasingly
