@@ -2,7 +2,8 @@
 
 Source for **[22-factor-apps.github.io](https://22-factor-apps.github.io)**: an
 open-source field guide for building software that can be understood, trusted,
-changed, and operated.
+changed, and operated. The static site also publishes the canonical generated
+factor catalog and a portable, unscored assessment template.
 
 This edition keeps ten durable principles from the original
 [twelve-factor methodology](https://12factor.net/), retires two mechanisms whose
@@ -61,12 +62,21 @@ no web fonts.
 ```sh
 npm ci
 npm run build
+npm run check:links
 npm run dev
 ```
 
 Factor documents live in `src/content/factors/`. Each includes a one-sentence
 commandment and a boundary against common over-reading, followed by concrete practices,
 failure modes, a litmus test, and source lineage.
+
+`npm run generate:catalog` derives `public/catalog/v1/factors.json` and
+`public/assessment/v1/template.json` from those same 22 documents. CI fails when
+the committed generated artifacts drift; there is no second hand-maintained
+taxonomy. The [audit guide](https://22-factor-apps.github.io/audit) connects these
+artifacts to the companion
+[`22-factor-apps-audit`](https://github.com/22-factor-apps/22-factor-apps-audit)
+Rust CLI.
 
 ## Deployment
 
@@ -75,8 +85,8 @@ GitHub Pages deploys an immutable version tag through
 the static site, and uploads the Pages artifact.
 
 ```sh
-git tag -a v0.3.0 -m "Twenty-Two-Factor comparative edition"
-git push origin v0.3.0
+git tag -a v0.4.0 -m "Evidence-first audit edition"
+git push origin v0.4.0
 ```
 
 The workflow can also be dispatched manually for recovery. Third-party actions are
