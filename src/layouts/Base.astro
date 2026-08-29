@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/calm.css';
 
 interface Props {
   title: string;
@@ -20,7 +21,7 @@ const isHome = Astro.url.pathname === '/';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f4f0e7" />
+    <meta name="theme-color" content="#f7f5ef" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -46,6 +47,7 @@ const isHome = Astro.url.pathname === '/';
           <a href={isHome ? '#factors' : '/#factors'}>Factors</a>
           <a href={isHome ? '#why-22' : '/#why-22'}>Why 22</a>
           <a href="/research">Compare</a>
+          <a href="/audit">Audit</a>
           <a class="nav-github" href="https://github.com/22-factor-apps/22-factor-apps.github.io" rel="noopener noreferrer">
             GitHub <span aria-hidden="true">↗</span>
           </a>
@@ -70,12 +72,14 @@ const isHome = Astro.url.pathname === '/';
             <a href="/#factors">All factors</a>
             <a href="/research">Comparative research</a>
             <a href="/retired">Retired factors</a>
+            <a href="/audit">Audit and assess</a>
           </div>
           <div>
             <h2>Lineage</h2>
             <a href="https://12factor.net/" rel="noopener noreferrer">The original twelve ↗</a>
             <a href="https://www.oreilly.com/library/view/beyond-the-twelve-factor/9781492042631/" rel="noopener noreferrer">Beyond the Twelve-Factor App ↗</a>
             <a href="https://github.com/22-factor-apps/22-factor-apps.github.io" rel="noopener noreferrer">Source and discussion ↗</a>
+            <a href="https://github.com/22-factor-apps/22-factor-apps-audit" rel="noopener noreferrer">Rust audit CLI ↗</a>
           </div>
         </div>
       </div>

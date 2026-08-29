@@ -1,7 +1,7 @@
 {
   "name": "22-factor-apps-site",
   "description": "The Twenty-Two-Factor App — a field guide for modern software",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -10,9 +10,12 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run check:content && npm run check:catalog && astro build",
     "preview": "astro preview",
-    "check:content": "node scripts/check-content.mjs"
+    "check:content": "node scripts/check-content.mjs",
+    "check:catalog": "node scripts/generate-catalog.mjs --check",
+    "check:links": "node scripts/check-links.mjs",
+    "generate:catalog": "node scripts/generate-catalog.mjs"
   },
   "dependencies": {
     "astro": "7.2.4"

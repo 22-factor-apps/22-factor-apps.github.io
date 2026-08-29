@@ -14,7 +14,7 @@ const additions = factors.filter((factor: any) => !factor.original);
   <section class="hero">
     <div class="hero-copy">
       <p class="eyebrow"><span>Field guide 01</span> Software that survives contact with reality</p>
-      <h1>The cloud changed.<br /><em>The checklist should too.</em></h1>
+      <h1>The cloud changed. <em>The checklist should too.</em></h1>
       <p class="hero-lede">
         Ten durable ideas from the original twelve. Twelve missing principles for
         security, reliability, delivery, data, cost, and sustainability. One
@@ -23,6 +23,7 @@ const additions = factors.filter((factor: any) => !factor.original);
       <div class="hero-actions">
         <a class="button button-primary" href="/factors/codebase">Start with Factor I <span aria-hidden="true">→</span></a>
         <a class="button button-secondary" href="#why-22">See what changed</a>
+        <a class="button button-secondary" href="/audit">Audit a project</a>
       </div>
     </div>
 
@@ -153,10 +154,32 @@ const additions = factors.filter((factor: any) => !factor.original);
     </div>
   </section>
 
+  <section class="audit-promo" aria-labelledby="audit-promo-title">
+    <div>
+      <p class="section-label">03 · Put it to work</p>
+      <h2 id="audit-promo-title">Find evidence.<br />Keep the judgment.</h2>
+      <p>
+        The Rust auditor inspects a repository or GitHub organization for
+        factor-scoped evidence, then creates a versioned assessment for the
+        decisions automation cannot make. It never compresses architectural risk
+        into a flattering score.
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="/audit">Open the audit guide <span aria-hidden="true">→</span></a>
+        <a class="button button-secondary" href="https://github.com/22-factor-apps/22-factor-apps-audit" rel="noopener noreferrer">View the Rust CLI ↗</a>
+      </div>
+    </div>
+    <ol class="audit-promo-steps">
+      <li><span>01</span><strong>Discover</strong><p>Locate reviewable evidence without claiming that a filename proves compliance.</p></li>
+      <li><span>02</span><strong>Assess</strong><p>Record status, rationale, evidence, owner, review date, and follow-up per factor.</p></li>
+      <li><span>03</span><strong>Revisit</strong><p>Pin the edition and source release so the decision remains reproducible.</p></li>
+    </ol>
+  </section>
+
   <section class="evidence-section">
     <div class="section-intro evidence-intro">
       <div>
-        <p class="section-label">03 · Evidence, not vibes</p>
+        <p class="section-label">04 · Research trail</p>
         <h2>Compared, challenged,<br />then compressed.</h2>
       </div>
       <a class="button button-dark" href="/research">Open the comparison</a>

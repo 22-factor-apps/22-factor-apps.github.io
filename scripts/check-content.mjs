@@ -1,63 +1,28 @@
 #!/usr/bin/env node
 
-import { readFileSync, readdirSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fail, loadFactors } from './factor-content.mjs';
 
-const root = dirname(dirname(fileURLToPath(import.meta.url)));
-const factorsDirectory = join(root, 'src', 'content', 'factors');
-const files = readdirSync(factorsDirectory)
-  .filter((file) => file.endsWith('.md'))
-  .sort();
+const factors = loadFactors();
 
-const fail = (message) => {
-  throw new Error(`content check failed: ${message}`);
-};
-
-const parseValue = (raw) => {
-  const value = raw.trim();
-  if (/^".*"$/.test(value)) return value.slice(1, -1);
-  if (/^\d+$/.test(value)) return Number(value);
-  if (value === 'true') return true;
-  if (value === 'false') return false;
-  return value;
-};
-
-const factors = files.map((file) => {
-  const document = readFileSync(join(factorsDirectory, file), 'utf8');
-  const match = document.match(/^---\n([\s\S]+?)\n---\n([\s\S]+)$/);
-  if (!match) fail(`${file} has invalid frontmatter boundaries`);
-
-  const frontmatter = Object.fromEntries(
-    match[1]
-      .split('\n')
-      .filter(Boolean)
-      .map((line) => {
-        const separator = line.indexOf(':');
-        if (separator < 1) fail(`${file} has an invalid frontmatter line: ${line}`);
-        return [line.slice(0, separator), parseValue(line.slice(separator + 1))];
-      }),
-  );
-
+for (const factor of factors) {
   for (const field of ['number', 'numeral', 'slug', 'title', 'tagline', 'commandment', 'boundary', 'original', 'category', 'reading']) {
-    if (frontmatter[field] === undefined || frontmatter[field] === '') {
-      fail(`${file} is missing ${field}`);
+    if (factor[field] === undefined || factor[field] === '') {
+      fail(`${factor.file} is missing ${field}`);
     }
   }
 
-  if (!/^\d+ min$/.test(frontmatter.reading)) fail(`${file} has invalid reading time`);
-  if (!match[2].includes('## The commandment')) fail(`${file} lacks a commandment section`);
-  if (!match[2].includes('## Common failure modes')) fail(`${file} lacks common failure modes`);
-  if (!match[2].includes('## Litmus test')) fail(`${file} lacks a litmus test`);
-  if (frontmatter.original === false && !match[2].includes('## Research lineage')) {
-    fail(`${file} lacks research lineage`);
+  if (!/^\d+ min$/.test(factor.reading)) fail(`${factor.file} has invalid reading time`);
+  if (!factor.body.includes('## The commandment')) fail(`${factor.file} lacks a commandment section`);
+  if (!factor.body.includes('## Common failure modes')) fail(`${factor.file} lacks common failure modes`);
+  if (!factor.body.includes('## Litmus test')) fail(`${factor.file} lacks a litmus test`);
+  if (!factor.litmusTest) fail(`${factor.file} has an empty litmus test`);
+  if (factor.original === false && !factor.body.includes('## Research lineage')) {
+    fail(`${factor.file} lacks research lineage`);
   }
 
-  const words = match[2].replace(/[`#>*_[\]()/-]/g, ' ').split(/\s+/).filter(Boolean).length;
-  if (words < 350) fail(`${file} is too brief (${words} words)`);
-
-  return { file, document, ...frontmatter };
-});
+  const words = factor.body.replace(/[`#>*_[\]()/-]/g, ' ').split(/\s+/).filter(Boolean).length;
+  if (words < 350) fail(`${factor.file} is too brief (${words} words)`);
+}
 
 if (factors.length !== 22) fail(`expected 22 factor files, found ${factors.length}`);
 
