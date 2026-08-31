@@ -1,11 +1,11 @@
 {
   "schema_version": "22-factor.assessment/v1",
-  "edition": "2026.2",
+  "edition": "2026.3",
   "target": "replace-with-application-or-system",
   "source": {
     "catalog_url": "https://22-factor-apps.github.io/catalog/v1/factors.json",
     "repository": "https://github.com/22-factor-apps/22-factor-apps.github.io",
-    "release": "v0.4.0"
+    "release": "v0.5.0"
   },
   "factors": [
     {
@@ -138,9 +138,9 @@
       "number": 10,
       "slug": "admin-processes",
       "title": "Admin Processes",
-      "commandment": "Run administrative work from the shipped release through reviewed, auditable procedures.",
-      "boundary": "A privileged shell with a wiki page is not a repeatable administrative process.",
-      "litmus_test": "Can a second operator execute a high-risk task from a named release using only the documented interface, preview its scope, obtain least-privilege access, monitor progress, and recover safely—while leaving a complete audit trail? If success depends on the original author’s laptop, memory, or standing credentials, the task is not an application process yet. Renumbered and modernized from Factor XII of the original twelve-factor methodology.",
+      "commandment": "Run administrative work from the shipped release in a separate trust domain through reviewed, auditable procedures.",
+      "boundary": "The same release must not mean the same network, identity store, credentials, or privileges as customer-facing processes.",
+      "litmus_test": "Can a second operator execute a high-risk task from a named release in an isolated administrative trust domain, authenticate without the customer identity system, preview its scope, obtain least-privilege access, monitor progress, and recover safely—while leaving a complete audit trail? If success depends on the original author’s laptop, memory, or standing credentials, the task is not an application process yet. Renumbered and modernized from Factor XII of the original twelve-factor methodology. The isolation model follows NIST SP 800-207 and NIST SP 800-207A: network location alone grants no trust, so network-tier separation must be paired with identity-tier policy.",
       "status": "not-assessed",
       "rationale": "",
       "evidence": [],
@@ -276,11 +276,11 @@
     },
     {
       "number": 20,
-      "slug": "outcome-ownership",
-      "title": "Outcome Ownership",
-      "commandment": "Give one empowered team responsibility for user outcomes, safety, operations, learning, and retirement.",
-      "boundary": "An owner field or on-call rotation is not ownership when the team lacks user feedback, authority, time, or a decommission path.",
-      "litmus_test": "Select one important user journey and one production symptom. Can the team show who owns the outcome, whose evidence shaped it, how accessibility, safety, security, and reliability are measured, what recent change affected it, how to mitigate and recover, and when the product should be changed or retired rather than merely kept alive? Then inspect the last incident’s actions. If none were completed or verified, the learning loop is open.",
+      "slug": "formal-methods-functional-core",
+      "title": "Formal Methods & Functional Core",
+      "commandment": "Model critical state transitions explicitly; implement a functional core with pure transformations, immutable values, typed errors, and exhaustive cases.",
+      "boundary": "Formal does not mean proving every line, and functional does not mean forbidding state or effects; apply rigor where failure matters and push effects to controlled boundaries.",
+      "litmus_test": "Choose the most dangerous lifecycle and add one state, one late asynchronous result, and one invalid transition. Does the model expose the new interleavings, does the compiler or checker force every case to be reconsidered, does the invalid command leave state unchanged, and can the decision logic be replayed without real effects? If correctness still depends on remembering which booleans may coexist or which callback is “probably latest,” the system has an undocumented state machine.",
       "status": "not-assessed",
       "rationale": "",
       "evidence": [],
@@ -290,11 +290,11 @@
     },
     {
       "number": 21,
-      "slug": "cost-architecture",
-      "title": "Cost as Architecture",
-      "commandment": "Attribute resource use to outcomes and manage unit economics within explicit budgets.",
-      "boundary": "Cost responsibility means value-aware tradeoffs, not indiscriminate cost cutting or shifting toil and risk elsewhere.",
-      "litmus_test": "For a meaningful increase in one product outcome, can the owning team explain the marginal technology cost, identify the resources and design choices driving it, detect an abnormal change within the required time, and state which reliability, security, or performance constraints limit optimization? If cost can only be explained by the finance team after month end, feedback arrives too late for architecture.",
+      "slug": "safe-languages-total-types",
+      "title": "Safe Languages & Total Types",
+      "commandment": "Prefer memory-safe languages and total types; make absence, failure, and invalid states explicit, and isolate every unsafe boundary.",
+      "boundary": "A safe language cannot prevent incorrect requirements, authorization flaws, races, or misuse; unsafe and nullable interop still require containment, contracts, and adversarial tests.",
+      "litmus_test": "Select one nullable field, one expected failure, one protocol state, and one native or unchecked boundary. Can the compiler distinguish every case, do callers handle them exhaustively, is ordinary code unable to dereference null or freed memory, and is the remaining escape hatch small enough to state and test its complete safety contract? If “we know this cannot be null” or “this pointer should still be valid” exists only in a comment or reviewer memory, the type boundary has failed.",
       "status": "not-assessed",
       "rationale": "",
       "evidence": [],
