@@ -5,8 +5,8 @@ import { dirname, join } from 'node:path';
 
 import { loadFactors, root } from './factor-content.mjs';
 
-const edition = '2026.2';
-const release = 'v0.4.0';
+const edition = '2026.3';
+const release = 'v0.5.0';
 const repository = 'https://github.com/22-factor-apps/22-factor-apps.github.io';
 const catalogUrl = 'https://22-factor-apps.github.io/catalog/v1/factors.json';
 const factors = loadFactors()

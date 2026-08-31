@@ -61,7 +61,7 @@ const comparisons = [
     label: 'Reliability · SRE / Chaos',
     title: 'SRE + Principles of Chaos Engineering',
     focus: 'Measurable reliability under realistic disturbance',
-    overlap: 'VIII, XIII, XV, XVIII, XX',
+    overlap: 'VIII, XIII, XV, XVIII',
     borrowed: 'SLIs, SLOs, error budgets, release safety, production readiness, steady-state hypotheses, realistic failure injection, and bounded experiments make reliability claims testable.',
     contrast: 'SRE is an operating discipline and Chaos is an empirical practice; neither is reduced here to a checkbox. Their evidence loops support several factors rather than becoming a vague “test more” commandment.',
     sources: [
@@ -74,8 +74,8 @@ const comparisons = [
     label: 'Delivery research · DORA',
     title: 'DORA Capabilities',
     focus: 'Delivery performance, organizational outcomes, and wellbeing',
-    overlap: 'I, V, IX, XVIII, XIX, XX',
-    borrowed: 'Version control, continuous delivery, small changes, loosely coupled teams, monitoring, database change management, maintainability, customer feedback, and sustainable pace reinforce the delivery and ownership commandments.',
+    overlap: 'I, V, IX, XVIII, XIX',
+    borrowed: 'Version control, continuous delivery, small changes, loosely coupled teams, monitoring, database change management, maintainability, customer feedback, and sustainable pace reinforce the delivery and feedback disciplines.',
     contrast: 'DORA reports empirically associated capabilities and outcomes; this guide states architectural obligations. It deliberately avoids turning deployment frequency or any single metric into a universal target detached from context.',
     sources: [
       { label: 'DORA capabilities catalog', href: 'https://dora.dev/capabilities/' },
@@ -87,9 +87,9 @@ const comparisons = [
     label: 'Architecture review · Cloud providers',
     title: 'Well-Architected Frameworks',
     focus: 'Cross-pillar workload quality and explicit trade-offs',
-    overlap: 'VII, XII–XVIII, XX–XXII',
+    overlap: 'VII, XII–XVIII, XXII',
     borrowed: 'Operational excellence, security, reliability, performance efficiency, cost, and sustainability confirm that production quality is multi-dimensional and that improving one dimension can tax another.',
-    contrast: 'Provider frameworks are deep review catalogs. This guide is a shorter, vendor-neutral set of application pressures. Performance is cross-cutting through Concurrency, SLOs, Resilience, Cost, and Sustainability rather than a context-free demand to be “fast.”',
+    contrast: 'Provider frameworks are deep review catalogs. This guide is a shorter, vendor-neutral set of application pressures. Performance and cost remain cross-cutting constraints through Concurrency, SLOs, Resilience, delivery, and Sustainability rather than context-free universal factors.',
     sources: [
       { label: 'AWS Well-Architected pillars', href: 'https://docs.aws.amazon.com/wellarchitected/latest/framework/the-pillars-of-the-framework.html' },
       { label: 'Google Cloud Well-Architected', href: 'https://cloud.google.com/architecture/framework' },
@@ -114,8 +114,8 @@ const comparisons = [
     label: 'Security lifecycle · OWASP / NIST / CISA',
     title: 'SAMM + SSDF + Secure by Design',
     focus: 'Security ownership from requirements through operations',
-    overlap: 'XII, XIV, XVI, XX',
-    borrowed: 'Threat modeling, security requirements, safe defaults, verification, vulnerability response, supply-chain evidence, and responsibility for customer security outcomes broaden the earlier identity-only rule.',
+    overlap: 'XII, XIV, XVI, XXI',
+    borrowed: 'Threat modeling, security requirements, safe defaults, verification, vulnerability response, supply-chain evidence, memory-safe implementation, and responsibility for customer security outcomes broaden the earlier identity-only rule.',
     contrast: 'SAMM is a maturity model and SSDF is a practice catalog. Factor XII is the compressed architectural commandment; it does not replace either framework, a domain threat model, or a formal safety case.',
     sources: [
       { label: 'OWASP SAMM', href: 'https://owaspsamm.org/model/' },
@@ -128,8 +128,8 @@ const comparisons = [
     label: 'People and change · 2001',
     title: 'Manifesto for Agile Software Development',
     focus: 'People, working software, collaboration, and response to change',
-    overlap: 'IX, XI, XVIII–XX',
-    borrowed: 'Outcome Ownership now starts with representative user evidence and gives an empowered team a feedback loop spanning discovery, delivery, operations, safety, and retirement.',
+    overlap: 'IX, XI, XVIII–XIX',
+    borrowed: 'Short feedback, working software, direct collaboration, and response to change reinforce representative testing, contract evolution, and progressive delivery.',
     contrast: 'The Agile Manifesto is about values for making software; this guide is about system properties and lifecycle evidence. Neither can substitute for the other, and process labels do not prove architectural fitness.',
     sources: [
       { label: 'Manifesto for Agile Software Development', href: 'https://agilemanifesto.org/' },
@@ -141,7 +141,7 @@ const comparisons = [
     label: 'User agency · 2019',
     title: 'Local-first Software',
     focus: 'Speed, offline use, longevity, privacy, and user control',
-    overlap: 'VI, XI, XV, XVI, XIX, XX',
+    overlap: 'VI, XI, XV, XVI, XIX',
     borrowed: 'Data Lifecycle & Privacy now treats portable export, durable formats, offline usefulness, and provider exit as practical agency—not just compliance workflows.',
     contrast: 'Local-first is compelling for user-authored and collaborative data, but central authority is appropriate for banking, marketplaces, and other domains. The factor requires agency and lifecycle control without prescribing CRDTs or device-primary storage.',
     sources: [
@@ -153,9 +153,9 @@ const comparisons = [
     label: 'Responsible technology · Sustainability',
     title: 'Sustainable Web + Green Software + FinOps',
     focus: 'Efficient, open, honest, resilient technology within physical limits',
-    overlap: 'XVI, XX–XXII',
-    borrowed: 'Useful-work units, energy and hardware efficiency, carbon awareness, cost attribution, accessibility, honesty, and explicit trade-offs connect resource use to value and harm.',
-    contrast: 'Cost and environmental impact remain separate because price is not a physical impact signal. “Renewable” and offsets do not excuse waste, while efficiency work must not export harm into accessibility, privacy, labor, or reliability.',
+    overlap: 'XVI, XXII',
+    borrowed: 'Useful-work units, energy and hardware efficiency, carbon awareness, cost evidence, accessibility, honesty, and explicit trade-offs connect resource use to value and harm.',
+    contrast: 'Cost remains a cross-cutting design constraint rather than a standalone factor, and price is not a physical-impact signal. “Renewable” and offsets do not excuse waste, while efficiency work must not export harm into accessibility, privacy, labor, or reliability.',
     sources: [
       { label: 'Sustainable Web Manifesto', href: 'https://www.sustainablewebmanifesto.com/' },
       { label: 'Green Software principles', href: 'https://learn.greensoftware.foundation/introduction/' },
@@ -167,11 +167,26 @@ const comparisons = [
     label: 'Specialized extension · AI',
     title: 'Google’s Sixteen-Factor AI Extension',
     focus: 'Prompts, model state, non-deterministic quality, and AI trust',
-    overlap: 'I, II, VI, XII–XVI, XX–XXII',
+    overlap: 'I, II, VI, XII–XVI, XIX–XXII',
     borrowed: 'Prompts, context logic, behavioral specifications, models, evaluation sets, and guardrails are first-class versioned inputs. Quality and tool-use safety must be measured as product behavior, not inferred from HTTP success.',
-    contrast: 'AI introduces distinct hazards, but they fit the universal rules: prompts and specs are source, models are dependencies, memory is state, evaluations are SLO evidence, tools require least privilege, and humans still own outcomes. AI-specific standards remain an overlay.',
+    contrast: 'AI introduces distinct hazards, but they fit the universal rules: prompts and specs are source, models are dependencies, memory is state, evaluations are SLO evidence, tools require least privilege, and critical workflows need explicit states and guarded effects. AI-specific standards remain an overlay.',
     sources: [
       { label: 'From Twelve to Sixteen-Factor AI Apps', href: 'https://cloud.google.com/transform/from-the-twelve-to-sixteen-factor-app' },
+    ],
+  },
+  {
+    number: '12',
+    label: 'Correctness by construction · Formal / language safety',
+    title: 'Formal Methods + Memory-Safe Languages',
+    focus: 'Explicit system behavior and elimination of preventable defect classes',
+    overlap: 'XX–XXI',
+    borrowed: 'State-machine specifications, safety and liveness properties, immutable functional cores, typed errors, exhaustive matching, memory safety, explicit absence, and isolated unsafe boundaries turn reviewer assumptions into checkable constraints.',
+    contrast: 'Types and safe languages prevent important classes of failure but do not prove requirements, authorization, concurrency, or domain correctness. Formal rigor is proportional to risk, and every model must state its assumptions and connection to implementation.',
+    sources: [
+      { label: 'Leslie Lamport: A High-Level View of TLA+', href: 'https://lamport.azurewebsites.net/tla/high-level-view.html' },
+      { label: 'Rust: exhaustive matching', href: 'https://doc.rust-lang.org/stable/book/ch06-02-match.html' },
+      { label: 'Rust: Option instead of null', href: 'https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html' },
+      { label: 'CISA: Memory Safe Roadmaps', href: 'https://www.cisa.gov/resources-tools/resources/case-memory-safe-roadmaps' },
     ],
   },
 ];
@@ -179,12 +194,12 @@ const comparisons = [
 
 <Base
   title="Comparative Research — The Twenty-Two-Factor App"
-  description="How the Twenty-Two-Factor App compares with the Fifteen-Factor App, Reactive Manifesto, SRE, Chaos, DORA, Well-Architected frameworks, secure-by-design guidance, Agile, Local-first, sustainable software, and AI extensions."
+  description="How the Twenty-Two-Factor App compares with the Fifteen-Factor App, Reactive Manifesto, SRE, Chaos, DORA, Well-Architected frameworks, secure-by-design guidance, formal methods, memory-safe languages, Agile, Local-first, sustainable software, and AI extensions."
 >
   <section class="content-page research-page">
     <header class="content-page-header">
       <div>
-        <p class="section-label">Comparative research · 2026.2</p>
+        <p class="section-label">Comparative research · 2026.3</p>
         <h1>Borrow the pressure.<br />Reject the costume.</h1>
       </div>
       <p>
@@ -216,10 +231,31 @@ const comparisons = [
       </div>
     </section>
 
+    <section class="scope-boundary" id="revision-2026-3" aria-labelledby="revision-title">
+      <p class="section-label">02 · Revision note</p>
+      <h2 id="revision-title">Correctness earned<br />two explicit factors.</h2>
+      <div>
+        <p>
+          Edition 2026.3 retires Outcome Ownership and Cost as Architecture as
+          standalone universal factors. Ownership remains required wherever a
+          commandment calls for evidence, authority, or follow-up; cost remains a
+          constraint across capacity, observability, resilience, delivery, and
+          sustainable operation.
+        </p>
+        <p>
+          Their numbered slots now cover two harder-to-retrofit production blind
+          spots: explicit formal state and functional decision logic, followed by
+          memory-safe languages, total types, explicit absence, and contained unsafe
+          interoperability. Earlier factor URLs redirect here so the revision remains
+          reviewable instead of silently rewriting history.
+        </p>
+      </div>
+    </section>
+
     <section class="comparison-section" aria-labelledby="comparison-title">
       <div class="research-section-heading comparison-heading">
-        <p class="section-label">02 · Compare and contrast</p>
-        <h2 id="comparison-title">Eleven lenses.<br />One compressed set.</h2>
+        <p class="section-label">03 · Compare and contrast</p>
+        <h2 id="comparison-title">Twelve lenses.<br />One compressed set.</h2>
         <p>
           “Overlap” names the factors most directly pressured by each source; it does
           not claim equivalence. The distinctions matter as much as the borrowings.
@@ -267,7 +303,7 @@ const comparisons = [
     </section>
 
     <section class="scope-boundary" aria-labelledby="scope-title">
-      <p class="section-label">03 · Honest boundary</p>
+      <p class="section-label">04 · Honest boundary</p>
       <h2 id="scope-title">A field guide is not<br />a complete profession.</h2>
       <div>
         <p>

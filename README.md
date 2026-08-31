@@ -32,8 +32,8 @@ intent is better expressed elsewhere, and adds twelve modern production obligati
 | XVII | Infrastructure & Policy as Code | New | Express reviewed desired state and reconcile drift within safety bounds. |
 | XVIII | Progressive Delivery | New | Separate deployment from exposure and expand only while evidence holds. |
 | XIX | Evolutionary Compatibility | New | Change additively until coexistence, migration, and rollback are proved. |
-| XX | Outcome Ownership | New | Give one empowered team responsibility from user outcome through retirement. |
-| XXI | Cost as Architecture | New | Attribute resource use to outcomes and manage unit economics within budgets. |
+| XX | Formal Methods & Functional Core | New | Model critical states and keep transformations pure, explicit, typed, and exhaustive. |
+| XXI | Safe Languages & Total Types | New | Prefer memory-safe languages, explicit absence, and verified unsafe boundaries. |
 | XXII | Sustainable Operation | New | Deliver useful work with less physical impact without exporting harm. |
 
 The retired originals are **Port Binding** and **Logs as Event Streams**. Port
@@ -85,8 +85,8 @@ GitHub Pages deploys an immutable version tag through
 the static site, and uploads the Pages artifact.
 
 ```sh
-git tag -a v0.4.0 -m "Evidence-first audit edition"
-git push origin v0.4.0
+git tag -a v0.5.0 -m "Formal and safe-language edition"
+git push origin v0.5.0
 ```
 
 The workflow can also be dispatched manually for recovery. Third-party actions are
