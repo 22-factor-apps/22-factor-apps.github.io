@@ -14,3 +14,9 @@ dist/
 # misc
 .DS_Store
 npm-debug.log*
+
+# Repository-local temporary data and authorized Git worktrees
+tmp
+temp
+tmp/worktrees
+temp/worktrees
