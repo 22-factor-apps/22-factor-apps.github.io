@@ -14,3 +14,11 @@ dist/
 # misc
 .DS_Store
 npm-debug.log*
+
+# --- carried over from the grafted branch wip/land-uncommitted-20260905 ---
+!env/dec/.gitkeep
+!env/enc/*.env.enc
+*.env
+env/dec/*
+tmp/temp/
+tmp/worktrees/
