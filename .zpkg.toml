@@ -1,0 +1,16 @@
+# zed-pkg manifest — https://zpkg.net
+# TOML only — never YAML, never JSON.
+#
+# This project uses zed-pkg for VCS-hosted dependencies (`zed add <org>/<name>@^1`,
+# `zed install --frozen`). The Astro toolchain itself is distributed exclusively via
+# the npm registry, so it is declared in package.json; everything installable from a
+# forge (git/hg/jj) belongs here. Tags and commits get pinned in .zpkg.lock.
+
+[package]
+org = "22-factor-apps"
+name = "22-factor-apps.github.io"
+description = "Marketing site for the 22-Factor App methodology"
+license = "MIT"
+
+[dependencies]
+# zed add <org>/<name>@^1   # resolves, fetches a pruned artifact, symlinks into zed_modules/

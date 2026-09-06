@@ -1,0 +1,52 @@
+---
+import Base from './Base.astro';
+
+const { frontmatter } = Astro.props;
+
+const modules = import.meta.glob('../pages/factors/*.md', { eager: true });
+const factors = Object.values(modules)
+  .map((m) => ({
+    number: m.frontmatter.number,
+    title: m.frontmatter.title,
+    url: m.url,
+  }))
+  .sort((a, b) => a.number - b.number);
+
+const idx = factors.findIndex((f) => f.number === frontmatter.number);
+const prev = idx > 0 ? factors[idx - 1] : null;
+const next = idx < factors.length - 1 ? factors[idx + 1] : null;
+
+const pad = (n) => String(n).padStart(2, '0');
+const isNew = frontmatter.number > 12;
+---
+
+<Base title={`${pad(frontmatter.number)}. ${frontmatter.title} — The Twenty-Two-Factor App`} description={frontmatter.tagline}>
+  <div class="factor-head">
+    <div class="num-big">{pad(frontmatter.number)}</div>
+    <div class="eyebrow">
+      Factor {pad(frontmatter.number)} of 22
+      {isNew && <span class="new-flag">NEW</span>}
+    </div>
+    <h1>{frontmatter.title}</h1>
+    <p class="tagline">{frontmatter.tagline}</p>
+  </div>
+
+  <article class="factor-body">
+    <slot />
+  </article>
+
+  <nav class="pager">
+    {prev && (
+      <a href={prev.url}>
+        <span class="dir">← Prev · {pad(prev.number)}</span>
+        <span class="t">{prev.title}</span>
+      </a>
+    )}
+    {next && (
+      <a href={next.url} class="next">
+        <span class="dir">Next · {pad(next.number)} →</span>
+        <span class="t">{next.title}</span>
+      </a>
+    )}
+  </nav>
+</Base>
