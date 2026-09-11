@@ -10,6 +10,8 @@ const factors = defineCollection({
     slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     title: z.string().min(1),
     tagline: z.string().min(1),
+    commandment: z.string().min(1),
+    boundary: z.string().min(1),
     original: z.boolean(),
     category: z.string().min(1),
     reading: z.string().regex(/^\d+ min$/),

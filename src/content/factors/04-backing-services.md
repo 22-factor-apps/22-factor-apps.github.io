@@ -4,6 +4,8 @@ numeral: "IV"
 slug: backing-services
 title: "Backing Services"
 tagline: "Treat every network dependency as an attached, replaceable resource"
+commandment: "Depend on explicit service contracts; attach and replace implementations through configuration."
+boundary: "Replaceable means operationally swappable through a tested contract, not identical behavior from every provider."
 original: true
 category: "Architecture"
 reading: "5 min"
@@ -14,7 +16,7 @@ endpoints, and third-party APIs are all backing services. Whether your team oper
 them or a vendor does, application code should reach them through explicit resource
 handles and narrow contracts—not assumptions about where or by whom they run.
 
-## The principle
+## The commandment
 
 Attach a backing service through configuration. The application depends on its
 contract and required capabilities, not on a hostname compiled into source or a

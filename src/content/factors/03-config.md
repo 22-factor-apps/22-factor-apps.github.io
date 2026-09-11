@@ -4,6 +4,8 @@ numeral: "III"
 slug: config
 title: "Configuration"
 tagline: "Keep deploy-specific values out of immutable application artifacts"
+commandment: "Build without deploy-specific values; bind validated configuration at release or runtime."
+boundary: "External configuration is not unversioned configuration, and secrets are not ordinary environment variables."
 original: true
 category: "Runtime"
 reading: "5 min"
@@ -14,7 +16,7 @@ addresses, feature policy, regional settings, credentials, and operational limit
 It must be supplied explicitly at release or runtime, never baked into application
 code or smuggled in through an environment-specific build.
 
-## The principle
+## The commandment
 
 Build one artifact and bind deploy-specific configuration later. The application
 reads values through a small, documented interface—environment variables, mounted
@@ -38,7 +40,7 @@ to scatter credentials through source trees.
   database handle, region, and feature policy independently; it does not inherit an
   opaque `production.rb` full of unrelated decisions.
 - Make sensitive values short-lived, narrowly scoped, redacted from diagnostics, and
-  rotatable without rebuilding the artifact. [Factor XII](/factors/identity-least-privilege)
+  rotatable without rebuilding the artifact. [Factor XII](/factors/secure-by-design)
   covers workload identity and least privilege.
 - Record a non-secret configuration fingerprint with each release so operators can
   correlate behavior without exposing values.
@@ -57,6 +59,24 @@ approval, or compatibility checks.
 
 Avoid secrets in command-line arguments, where process listings and shell histories
 may expose them. Avoid logging the entire environment during startup or failure.
+
+## Encrypted configuration belongs in the codebase
+
+The strongest form of reviewable configuration is committed ciphertext. Store
+each deploy's variables in the repository under `env/enc/`—values encrypted one
+by one with an audited tool such as age or SOPS, keys left readable so a diff
+still says which setting changed. At release time, decrypt to `env/dec/*.env`
+(gitignored, short-lived) and inject through the environment interface above;
+the application never knows the difference. Config changes then carry a commit,
+an author, a review, and a revert path, and checking out any tag reproduces the
+code and the configuration that shipped with it.
+
+What cannot live in the repository is the root of trust: the decryption key.
+Hold that—and at most one bootstrap credential beside it—in an external secrets
+service such as fiducia-cloud, fetched at deploy time via workload identity and
+logged on every access. One or two secrets outside the codebase, everything
+else encrypted within it: that inversion is what lets the litmus below pass
+without a scavenger hunt.
 
 ## Litmus test
 

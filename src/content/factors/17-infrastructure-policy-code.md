@@ -4,6 +4,8 @@ numeral: "XVII"
 slug: infrastructure-policy-code
 title: "Infrastructure & Policy as Code"
 tagline: "Declare desired state, review policy, and reconcile drift continuously"
+commandment: "Express infrastructure and policy as reviewed desired state, then reconcile drift within explicit safety bounds."
+boundary: "Code can reproduce mistakes quickly; controllers need scoped authority, previews, policy tests, and observable convergence."
 original: false
 category: "Operations"
 reading: "7 min"
@@ -14,7 +16,7 @@ identity bindings, data residency, rollout strategy, and admission rules can cha
 reliability or security as profoundly as source code. Express them as declarative,
 versioned desired state and make the running system continuously accountable to it.
 
-## The principle
+## The commandment
 
 Define what should exist and which invariants must hold. Review and test that
 definition, apply it through automated controllers or pipelines, observe the actual
@@ -73,6 +75,18 @@ into concentrated risk.
 
 Declarative syntax does not guarantee idempotency or safety. Test provider behavior,
 imports, moves, replacement semantics, and partial failure.
+
+## Immutable machine images
+
+Desired state reconciles cleanly only onto substrates that do not drift. Bake
+machine images—AMIs and their equivalents—in the pipeline from a versioned
+definition, so the operating system, hardening, and runtime arrive as a tested
+artifact tied to the tag that produced it. Changing a host means rolling
+replacement from a new image behind the load balancer; patching means
+rebuilding; rollback means relaunching yesterday's image, which still exists.
+In-place mutation—the SSH session, the hotfixed unit file—is break-glass,
+logged, and followed by the instance's termination, because a hand-modified
+host is a fork of desired state that no reconciler can see.
 
 ## Litmus test
 

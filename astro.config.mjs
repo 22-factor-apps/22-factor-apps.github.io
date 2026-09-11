@@ -7,5 +7,9 @@ export default defineConfig({
   redirects: {
     '/factors/port-binding': '/retired#port-binding',
     '/factors/logs': '/retired#logs',
+    '/factors/identity-least-privilege': '/factors/secure-by-design',
+    '/factors/operational-ownership': '/research#revision-2026-3',
+    '/factors/outcome-ownership': '/research#revision-2026-3',
+    '/factors/cost-architecture': '/research#revision-2026-3',
   },
 });

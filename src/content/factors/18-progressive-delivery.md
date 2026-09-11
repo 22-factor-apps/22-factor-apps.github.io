@@ -4,6 +4,8 @@ numeral: "XVIII"
 slug: progressive-delivery
 title: "Progressive Delivery"
 tagline: "Separate deployment from exposure and expand change with evidence"
+commandment: "Separate deployment from exposure; expand change only while evidence and abort controls hold."
+boundary: "A canary, flag, or staged rollout is not safe without representative traffic, decision thresholds, and a practiced stop path."
 original: false
 category: "Delivery"
 reading: "7 min"
@@ -14,7 +16,7 @@ the change is safe for every production user, workload shape, dependency state, 
 region. Release in small steps, observe real behavior, and stop exposure before weak
 signals become a global incident.
 
-## The principle
+## The commandment
 
 Separate **deployment**—placing a verified artifact into an environment—from
 **release**—exposing behavior to users or work. Progress through increasingly
@@ -68,6 +70,19 @@ without bounded risk.
 
 Do not let automatic rollback thrash between bad states. Bound attempts, preserve
 evidence, and escalate when the safe action is ambiguous.
+
+## Cut releases at immutable tags
+
+Progressive exposure needs an unambiguous answer to "exposure of what?" Cut
+releases at annotated, protected git tags—never at branch tips, which move
+under the deploy that references them. The tag pins source; the build turns it
+into digest-addressed artifacts; environments promote those artifacts up the
+evidence ladder unchanged. And where a rung of the ladder is
+irreversible—schema contraction, data deletion, a full-fleet flip—place an
+explicit human approval there as a first-class pipeline object: a named
+person, shown the diff and the canary's evidence, recorded in the audit
+trail. Gates guard blast radius; everything reversible stays automatic, and
+the break-glass path around a gate is louder than the gate itself.
 
 ## Litmus test
 

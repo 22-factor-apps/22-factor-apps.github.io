@@ -4,6 +4,8 @@ numeral: "II"
 slug: dependencies
 title: "Dependencies"
 tagline: "Declare, resolve, verify, and isolate every dependency"
+commandment: "Declare, lock, verify, and isolate every build and runtime dependency."
+boundary: "A manifest alone is not reproducibility, and vendoring alone is not integrity."
 original: true
 category: "Build"
 reading: "5 min"
@@ -14,7 +16,7 @@ library, certificate bundle, or command happens to be installed on one machine.
 Everything required to build and run it is declared; everything resolved from those
 declarations is pinned and verifiable.
 
-## The principle
+## The commandment
 
 Use the ecosystem’s dependency declaration and isolation mechanisms. A manifest says
 what the application permits. A lockfile or equivalent resolution says exactly what
@@ -56,6 +58,19 @@ tooling dependency documented only as “install the usual stuff.”
 Vendoring is not automatically safer. Checked-in dependency source still needs an
 origin, version, update path, license record, and integrity story. A repository full
 of abandoned copies is a dependency graph with its labels removed.
+
+## Dependencies from forges
+
+Language registries are not the only source of dependencies. When a dependency
+lives in a forge—an internal library, a sibling application's client, a tool
+distributed as source—install it as a package with pinned provenance, never as a
+vendored copy or a floating clone. Version-control-native package managers such
+as [zed-pkg](https://zpkg.net) resolve a semver range to a tag, pin the tag and
+the commit hash in a lockfile, and fetch a pruned artifact rather than repository
+history. The team standard: registry-distributed toolchains stay in the language
+manifest; forge-hosted dependencies are declared in `.zpkg.toml` and locked in
+`.zpkg.lock`, so both kinds of input satisfy the same test—declared, resolved,
+verified, and isolated.
 
 ## Litmus test
 

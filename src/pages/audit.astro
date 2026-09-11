@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Audit and assess — The Twenty-Two-Factor App"
+  description="Discover factor-scoped evidence with the Rust CLI, then record contextual decisions in a versioned assessment without a maturity score."
+>
+  <header class="audit-hero">
+    <p class="section-label">Evidence workflow</p>
+    <h1>Automation finds clues.<br /><em>People make the case.</em></h1>
+    <p>
+      Use the open-source Rust CLI to inspect a repository or GitHub organization.
+      Continue with a 22-entry assessment that preserves provenance, boundaries,
+      evidence, ownership, and follow-up—without pretending the result is one number.
+    </p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="https://github.com/22-factor-apps/22-factor-apps-audit" rel="noopener noreferrer">Open the CLI repository ↗</a>
+      <a class="button button-secondary" href="/assessment/v1/template.json" download>Download assessment JSON</a>
+    </div>
+  </header>
+
+  <section class="audit-principle" aria-labelledby="audit-boundary">
+    <p class="section-label">The boundary</p>
+    <h2 id="audit-boundary">Evidence is not certification.</h2>
+    <p>
+      A checked-in security policy is useful evidence. It is not proof that the
+      application fails closed. A missing file may also be legitimate when approved
+      evidence lives elsewhere. The tool keeps those facts visible and leaves the
+      contextual conclusion to accountable reviewers.
+    </p>
+  </section>
+
+  <section class="audit-workflow" aria-labelledby="audit-workflow-title">
+    <div class="audit-section-heading">
+      <p class="section-label">A small workflow</p>
+      <h2 id="audit-workflow-title">From checkout to evidence record</h2>
+    </div>
+
+    <ol class="workflow-list">
+      <li>
+        <span class="workflow-number">01</span>
+        <div>
+          <h3>Audit the repository</h3>
+          <p>
+            The scanner covers every factor. It marks observable repository cues as
+            leads and keeps runtime properties such as disposability and bounded
+            concurrency in manual review.
+          </p>
+          <pre><code>cargo install --git https://github.com/22-factor-apps/22-factor-apps-audit --locked
+twenty-two audit repo .</code></pre>
+        </div>
+      </li>
+      <li>
+        <span class="workflow-number">02</span>
+        <div>
+          <h3>Inspect the organization</h3>
+          <p>
+            Read-only GitHub checks review source-portfolio, repository context,
+            common security policy, checked-in automation, and ownership signals.
+          </p>
+          <pre><code>twenty-two audit org your-organization --format json</code></pre>
+        </div>
+      </li>
+      <li>
+        <span class="workflow-number">03</span>
+        <div>
+          <h3>Create the assessment</h3>
+          <p>
+            Initialization consumes the catalog generated from the same Markdown
+            documents as this site. The output pins the edition and source release.
+          </p>
+          <pre><code>twenty-two assessment init --target github.com/your-org/your-app --output assessment.json
+twenty-two assessment validate assessment.json</code></pre>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="audit-downloads" aria-labelledby="audit-downloads-title">
+    <div>
+      <p class="section-label">Versioned artifacts</p>
+      <h2 id="audit-downloads-title">Portable by default</h2>
+      <p>
+        No account, browser state, or telemetry is required. Keep the JSON beside
+        source, attach it to a release, or store it in your evidence system.
+      </p>
+    </div>
+    <div class="download-list">
+      <a href="/catalog/v1/factors.json">
+        <span>Canonical input</span>
+        <strong>Factor catalog v1</strong>
+        <small>Generated from all 22 source documents · JSON ↗</small>
+      </a>
+      <a href="/assessment/v1/template.json" download>
+        <span>Start here</span>
+        <strong>Assessment template v1</strong>
+        <small>22 unassessed entries · JSON ↓</small>
+      </a>
+      <a href="https://github.com/22-factor-apps/22-factor-apps-audit/blob/main/schemas/assessment-v1.schema.json" rel="noopener noreferrer">
+        <span>Validate</span>
+        <strong>Assessment schema v1</strong>
+        <small>JSON Schema 2020-12 · GitHub ↗</small>
+      </a>
+    </div>
+  </section>
+
+  <section class="audit-overlays" aria-labelledby="audit-overlays-title">
+    <p class="section-label">Domain overlays</p>
+    <h2 id="audit-overlays-title">Add evidence, not extra commandments.</h2>
+    <p>
+      AI, local-first, mobile, and regulated-safety systems need additional
+      evidence. Record overlays in the assessment and attach their proof to the
+      relevant universal factors. Do not renumber the set or turn
+      “not applicable” into a shortcut.
+    </p>
+    <a class="text-link" href="https://github.com/22-factor-apps/22-factor-apps-audit/blob/main/docs/overlays.md" rel="noopener noreferrer">Read the overlay guide ↗</a>
+  </section>
+</Base>

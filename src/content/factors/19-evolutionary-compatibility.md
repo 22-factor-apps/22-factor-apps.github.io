@@ -4,6 +4,8 @@ numeral: "XIX"
 slug: evolutionary-compatibility
 title: "Evolutionary Compatibility"
 tagline: "Let consecutive versions coexist while contracts and data move safely"
+commandment: "Change additively; let old and new versions coexist until migration and rollback are proved."
+boundary: "A major version number announces incompatibility; it does not make coordinated upgrades, data conversion, or deprecation safe."
 original: false
 category: "Architecture"
 reading: "7 min"
@@ -14,7 +16,7 @@ release, queued job, regional partition, or partner integration, old and new ver
 coexist. Design interfaces, data, and operational procedures so that coexistence is a
 supported state rather than a race the deployment must win.
 
-## The principle
+## The commandment
 
 Make changes **additive first**. Introduce the new capability while preserving the old
 contract, migrate producers, consumers, and data with observable progress, then remove

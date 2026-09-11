@@ -3,7 +3,9 @@ number: 1
 numeral: "I"
 slug: codebase
 title: "Codebase"
-tagline: "One authoritative history for every deploy of an application"
+tagline: "Make every deploy traceable to one authoritative source history"
+commandment: "Map every deploy to one authoritative source history."
+boundary: "This requires traceable release identity, not one repository per service or a ban on monorepos."
 original: true
 category: "Source"
 reading: "4 min"
@@ -14,7 +16,7 @@ version-control history. Production, staging, review environments, and developer
 machines may run different revisions, but they are deploys of the same codebase—not
 hand-maintained cousins that merely resemble one another.
 
-## The principle
+## The commandment
 
 A **codebase** is the history from which a deployable application is built. One
 codebase can produce many deploys; one deploy must not be assembled from mystery
@@ -56,6 +58,21 @@ cannot faithfully reproduce.
 Also avoid mistaking a huge repository for a single application. If no team can name
 the deployable boundaries, a monorepo becomes a correlated-release machine rather
 than a source-of-truth advantage.
+
+## One history, curated deliberately
+
+An authoritative history stays authoritative only if the team curates it the same
+way every time. Choose one landing strategy—rebase feature branches and squash, or
+merge commits that preserve deliberate series—then encode it in the forge's
+settings and disable the alternatives. Shared history is immutable: once commits
+are on a branch others consume, they are never rewritten, and force-push stays
+reserved for an author's own unshared work.
+
+Review is part of the history, not an obstacle to it. Every change lands through a
+small, reviewed request with at least one non-author approval, and review latency
+is a team agreement—slow review quietly manufactures the oversized diffs it then
+struggles to read. Six months later, `git log` should read as a sequence of
+reviewed decisions, each explaining what changed and why.
 
 ## Litmus test
 

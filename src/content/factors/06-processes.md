@@ -4,6 +4,8 @@ numeral: "VI"
 slug: stateless-processes
 title: "Stateless Processes"
 tagline: "Execute as share-nothing processes; persist through backing services"
+commandment: "Keep execution disposable and durable state behind explicit stateful contracts."
+boundary: "Stateless processes do not imply a stateless product, nor do they make local caches authoritative."
 original: true
 category: "Runtime"
 reading: "5 min"
@@ -13,7 +15,7 @@ Application processes should be disposable compute. They may hold temporary work
 state while handling a request or job, but correctness must not depend on a particular
 process, host, local filesystem, or in-memory session surviving the next moment.
 
-## The principle
+## The commandment
 
 Persist durable state in an attached backing service with an explicit consistency,
 retention, and recovery model. Any healthy process of the correct release should be

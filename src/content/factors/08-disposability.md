@@ -4,6 +4,8 @@ numeral: "VIII"
 slug: disposability
 title: "Disposability"
 tagline: "Start promptly, stop gracefully, and recover by replacement"
+commandment: "Start ready, stop safely, and remain correct when termination is abrupt."
+boundary: "Graceful shutdown improves recovery; correctness must not depend on receiving it."
 original: true
 category: "Reliability"
 reading: "5 min"
@@ -14,7 +16,7 @@ maintenance, or failure demands it. Fast startup increases scheduling freedom;
 graceful shutdown protects in-flight work; crash-safe recovery prevents replacement
 from becoming data corruption.
 
-## The principle
+## The commandment
 
 Treat process lifetime as controlled but uncertain. On startup, validate
 configuration, establish only necessary connections, advertise readiness after real
@@ -53,6 +55,18 @@ of unobservable warmup all reduce disposability.
 
 An orchestrator’s “restart on failure” policy is not a recovery design. Without safe
 startup and idempotent work, it can repeatedly amplify the original fault.
+
+## Draining long-lived connections
+
+Termination is hardest where connections live longest. A process holding
+WebSockets, server-sent events, or raw TCP sessions treats the socket as the
+only state it owns: everything the connection means—identity, subscriptions,
+undelivered messages—lives in a backing service, so any replica can resume the
+session from a token and a cursor. On the termination signal, fail readiness
+first, announce closure at the protocol level (close 1001, GOAWAY), and spread
+client departure across a grace period sized to the reconnect herd rather than
+a default thirty seconds. Clients reconnect with jittered backoff and replay
+from their cursor; a deploy at peak then costs a blip, not a session.
 
 ## Litmus test
 

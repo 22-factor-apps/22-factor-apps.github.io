@@ -4,6 +4,8 @@ numeral: "XIV"
 slug: supply-chain-integrity
 title: "Supply Chain Integrity"
 tagline: "Make every artifact traceable, verifiable, and admissible"
+commandment: "Admit only artifacts traceable to reviewed source, declared inputs, and verifiable builds."
+boundary: "An SBOM, signature, or provenance statement records evidence; none eliminates the need to decide what and whom to trust."
 original: false
 category: "Security"
 reading: "7 min"
@@ -14,7 +16,7 @@ toolchains, runners, registries, deployment systems, and the people or workloads
 authorized to operate them. Protecting application source while trusting every other
 link implicitly does not protect the artifact users run.
 
-## The principle
+## The commandment
 
 Every released artifact should be traceable to reviewed source and declared inputs,
 built by an identified and hardened process, accompanied by verifiable provenance and
@@ -67,6 +69,18 @@ false sense of integrity.
 A passing vulnerability scan is not a trust proof. It says known signatures were not
 found at one time; it does not establish source review, builder integrity, provenance,
 or freedom from malicious behavior.
+
+## Standards keep the chain replaceable
+
+Provenance is easier to keep when every layer speaks a standard. Build
+container images to the OCI specifications with daemonless, standards-first
+tooling—Buildah, BuildKit, kaniko, or reproducible builders—rather than against
+one vendor's toolchain, and run them on any conformant runtime. Address images
+by digest, not mutable tag; sign them and attach SBOM and provenance as OCI
+artifacts at build time, verifying at admission. The payoff is the same as
+everywhere else in the chain: builder, registry, and runtime each become
+replaceable evidence-preserving links, and no single vendor's roadmap can hold
+the pipeline hostage.
 
 ## Litmus test
 

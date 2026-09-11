@@ -559,7 +559,7 @@ main {
 
 .factor-card {
   position: relative;
-  min-height: 17rem;
+  min-height: 19rem;
   padding: clamp(1.4rem, 3vw, 2.25rem);
   display: flex;
   flex-direction: column;
@@ -616,6 +616,16 @@ main {
   font-size: clamp(1.6rem, 3vw, 2.55rem);
   letter-spacing: -0.05em;
   line-height: 0.98;
+  text-transform: uppercase;
+}
+
+.card-commandment-label {
+  margin: 0 0 0.45rem;
+  color: var(--orange-dark);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -877,6 +887,62 @@ main {
   line-height: 1.75;
 }
 
+.factor-thesis {
+  margin: 0 0 4.5rem;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper-light);
+  box-shadow: 8px 8px 0 var(--orange);
+  font-family: var(--body);
+}
+
+.factor-thesis .thesis-label {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 253, 247, 0.35);
+  color: var(--acid);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.factor-thesis .thesis-commandment {
+  margin: 0;
+  padding: clamp(1.4rem, 4vw, 2.4rem);
+  color: var(--paper-light);
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 3vw, 2.25rem);
+  letter-spacing: -0.025em;
+  line-height: 1.24;
+}
+
+.thesis-boundary {
+  padding: 1rem 1.25rem;
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: 1rem;
+  border-top: 1px solid rgba(255, 253, 247, 0.35);
+  background: var(--acid);
+  color: var(--ink);
+}
+
+.thesis-boundary span {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.thesis-boundary p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
 .article-body > :first-child {
   margin-top: 0;
 }
@@ -1067,6 +1133,223 @@ main {
 .retired-list {
   display: grid;
   gap: 0;
+}
+
+.editorial-method,
+.comparison-section,
+.scope-boundary {
+  padding: clamp(4rem, 8vw, 7rem) 0;
+  border-bottom: 1px solid var(--ink);
+}
+
+.research-section-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.5fr);
+  gap: 1rem 4rem;
+  align-items: end;
+}
+
+.research-section-heading .section-label {
+  grid-column: 1 / -1;
+}
+
+.research-section-heading h2,
+.scope-boundary h2 {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(2.7rem, 5.5vw, 5.25rem);
+  font-weight: 850;
+  letter-spacing: -0.065em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.research-section-heading > p:last-child {
+  margin: 0;
+  color: var(--ink-2);
+  font-family: var(--serif);
+  font-size: 1.1rem;
+}
+
+.editorial-tests {
+  margin-top: clamp(3rem, 6vw, 5rem);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid var(--ink);
+  border-left: 1px solid var(--ink);
+}
+
+.editorial-tests article {
+  min-height: 21rem;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  background: var(--paper-light);
+}
+
+.editorial-tests article:nth-child(even) {
+  background: rgba(185, 219, 227, 0.35);
+}
+
+.editorial-tests span {
+  color: var(--orange-dark);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.editorial-tests h3 {
+  margin: auto 0 0.8rem;
+  font-family: var(--display);
+  font-size: 1.45rem;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.editorial-tests p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+
+.comparison-heading {
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.comparison-list {
+  border-top: 1px solid var(--ink);
+}
+
+.comparison-entry {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+  display: grid;
+  grid-template-columns: minmax(11rem, 0.32fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  border-bottom: 1px solid var(--ink);
+}
+
+.comparison-entry:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.comparison-entry-meta {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.comparison-entry-meta span {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--orange-dark);
+  font-size: 0.9rem;
+}
+
+.comparison-entry-main h3 {
+  margin: 0 0 1.5rem;
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3.65rem);
+  letter-spacing: -0.055em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.comparison-facts {
+  margin: 0 0 2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(10rem, 0.65fr);
+  border-top: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.comparison-facts div {
+  padding: 0.85rem 1rem 0.85rem 0;
+}
+
+.comparison-facts div + div {
+  padding-left: 1rem;
+  border-left: 1px solid var(--line-dark);
+}
+
+.comparison-facts dt,
+.comparison-argument h4 {
+  color: var(--orange-dark);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.comparison-facts dd {
+  margin: 0.25rem 0 0;
+  color: var(--ink);
+  font-size: 0.92rem;
+}
+
+.comparison-argument {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem;
+}
+
+.comparison-argument h4 {
+  margin: 0 0 0.6rem;
+}
+
+.comparison-argument p {
+  margin: 0;
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+
+.source-links {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.source-links a {
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
+.source-links a:hover {
+  background: var(--acid);
+}
+
+.scope-boundary {
+  border-bottom: 0;
+}
+
+.scope-boundary > div {
+  max-width: 54rem;
+  margin: 2.5rem 0;
+  padding: 1.5rem 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+
+.scope-boundary > div p {
+  margin: 0;
+  color: var(--ink-2);
 }
 
 .research-entry,
@@ -1335,6 +1618,19 @@ main {
   .footer-inner {
     grid-template-columns: 1fr;
   }
+
+  .editorial-tests {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .editorial-tests article {
+    min-height: 17rem;
+  }
+
+  .research-section-heading {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
 }
 
 @media (max-width: 720px) {
@@ -1479,6 +1775,11 @@ main {
     grid-column: 1;
   }
 
+  .thesis-boundary {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
   .pager {
     grid-template-columns: 1fr;
   }
@@ -1495,9 +1796,30 @@ main {
   }
 
   .research-entry,
-  .retired-entry {
+  .retired-entry,
+  .comparison-entry {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .editorial-tests {
+    grid-template-columns: 1fr;
+  }
+
+  .editorial-tests article {
+    min-height: 14rem;
+  }
+
+  .comparison-facts,
+  .comparison-argument,
+  .scope-boundary > div {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-facts div + div {
+    padding-left: 0;
+    border-top: 1px solid var(--line-dark);
+    border-left: 0;
   }
 
   .footer-links {

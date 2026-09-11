@@ -4,6 +4,8 @@ numeral: "XXII"
 slug: sustainable-operation
 title: "Sustainable Operation"
 tagline: "Reduce energy, carbon, water, and hardware per unit of useful work"
+commandment: "Deliver useful work with less energy, carbon, water, and hardware—without exporting harm."
+boundary: "Offsets and renewable claims do not replace demand reduction, efficient code, durable hardware, or honest lifecycle accounting."
 original: false
 category: "Efficiency"
 reading: "7 min"
@@ -15,7 +17,7 @@ data movement and retention compound across replicas; overprovisioning turns idl
 capacity into a permanent footprint. Sustainability belongs in architecture because
 architecture determines demand.
 
-## The principle
+## The commandment
 
 Measure and reduce environmental impact **per unit of useful work** while preserving
 explicit reliability, security, privacy, and accessibility constraints. Act through

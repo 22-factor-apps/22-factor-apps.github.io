@@ -4,6 +4,8 @@ numeral: "XIII"
 slug: observability-slos
 title: "Observability & SLOs"
 tagline: "Instrument user-visible behavior and connect signals to decisions"
+commandment: "Define user-visible objectives, instrument causality, and alert only on actionable risk."
+boundary: "More telemetry is not more observability, and an availability target is not permission to ignore correctness or user harm."
 original: false
 category: "Reliability"
 reading: "7 min"
@@ -15,7 +17,7 @@ service-level objectives that describe what users actually need. Telemetry witho
 decision model is expensive exhaust; an objective without trustworthy measurement is
 wishful thinking.
 
-## The principle
+## The commandment
 
 Define a small set of **service-level indicators** for critical user journeys:
 availability, latency, correctness, freshness, durability, or another measurable
@@ -56,9 +58,12 @@ it to reduce backend lock-in, not to collect everything indefinitely.
 - Telemetry has an owner, schema, sampling strategy, cardinality budget, retention
   class, access policy, and cost limit.
 
-Correctness deserves first-class indicators. A service returning fast `200` responses
-with stale prices or cross-tenant data is not healthy. Pair technical signals with
-domain invariants and externally observed outcomes.
+Correctness and product quality deserve first-class indicators. A service returning
+fast `200` responses with stale prices, inaccessible interactions, harmful model
+output, or cross-tenant data is not healthy. Pair technical signals with domain
+invariants, representative user feedback, and externally observed outcomes. For
+non-deterministic systems, version the evaluation set and measure behavioral quality,
+not just transport success.
 
 ## Common failure modes
 
@@ -84,6 +89,8 @@ is only “look at a dashboard,” the control loop is incomplete.
 
 Hoffman proposed **Telemetry** as a missing factor. Google SRE connected monitoring to
 SLIs, SLOs, and error budgets; OpenTelemetry supplies the current vendor-neutral signal
-model. This factor also subsumes the original “logs as event streams” mechanism.
+model. The Reactive Manifesto adds bounded responsiveness, while Google’s AI extension
+shows why non-deterministic quality and user feedback must be observable alongside
+system health. This factor also subsumes the original “logs as event streams” mechanism.
 
-*Sources: [Beyond the Twelve-Factor App](https://www.oreilly.com/library/view/beyond-the-twelve-factor/9781492042631/), [Google SRE on SLOs](https://sre.google/sre-book/service-level-objectives/), and [OpenTelemetry](https://opentelemetry.io/docs/).*
+*Sources: [Beyond the Twelve-Factor App](https://www.oreilly.com/library/view/beyond-the-twelve-factor/9781492042631/), [Google SRE on SLOs](https://sre.google/sre-book/service-level-objectives/), [OpenTelemetry](https://opentelemetry.io/docs/), [The Reactive Manifesto](https://www.reactivemanifesto.org/), and [Google Cloud’s AI extension](https://cloud.google.com/transform/from-the-twelve-to-sixteen-factor-app).*
