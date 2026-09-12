@@ -20,3 +20,8 @@ tmp
 temp
 tmp/worktrees
 temp/worktrees
+# --- carried over from the grafted branch rescue/orphan-42f541767cbe-preserve-dirty-worktree-snapshot-from-48 ---
+!env/dec/.gitkeep
+!env/enc/*.env.enc
+*.env
+env/dec/*
