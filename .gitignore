@@ -25,3 +25,6 @@ temp/worktrees
 !env/enc/*.env.enc
 *.env
 env/dec/*
+# --- carried over from the grafted branch wip/land-uncommitted-20260905 ---
+tmp/temp/
+tmp/worktrees/
